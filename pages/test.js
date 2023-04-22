@@ -5,7 +5,6 @@ import Navigation from '@/components/Navigation';
 const test = () => {
   return (
     <Container>
-      <Navigation />
       <Row>
         <Col>Test</Col>
       </Row>
