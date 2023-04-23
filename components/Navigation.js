@@ -3,13 +3,24 @@ import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
+import { Orbitron } from 'next/font/google';
+
+const orbitron = Orbitron({
+  weight: '400',
+  subsets: ['latin'],
+});
 
 const Navigation = () => {
   return (
     <Navbar bg="light" expand="lg">
       <Container fluid>
-        <Navbar.Brand href="#">Navbar scroll</Navbar.Brand>
+        <Navbar.Brand
+          href="#"
+          className={`${orbitron.className}`}
+          style={{ color: 'var(--primary-green' }}
+        >
+          Linxify
+        </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
           <Nav
