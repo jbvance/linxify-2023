@@ -1,0 +1,9 @@
+.link {
+  text-decoration: none;
+  padding: 0 10px;
+  color: gray;
+}
+
+.link:hover {
+  color: var(--primary-green);
+}
