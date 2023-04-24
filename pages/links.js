@@ -19,27 +19,18 @@ const orbitron = Orbitron({
   subsets: ['latin'],
 });
 
-// export async function getServerSideProps(context) {
-//   const session = await getSession({ req: context.req });
-//   if (!session) {
-//     console.log('NO SESSION');
-//     return {
-//       redirect: {
-//         destination: '/api/auth/signin',
-//         permanent: false,
-//       },
-//     };
-//   } else {
-//     const links = await prisma.link.findMany({
-//       where: {
-//         user: { id: session.user.id },
-//       },
-//     });
-//     return {
-//       props: { session, links: JSON.parse(JSON.stringify(links)) },
-//     };
-//   }
-// }
+export async function getServerSideProps(context) {
+  const session = await getSession({ req: context.req });
+  if (!session) {
+    console.log('NO SESSION');
+    return {
+      redirect: {
+        destination: '/api/auth/signin',
+        permanent: false,
+      },
+    };
+  }
+}
 
 const LinksPage = () => {
   const [updatingLinkId, setUpdatingLinkId] = useState(null);
