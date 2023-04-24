@@ -11,6 +11,7 @@ import FormAlert from '@/components/FormAlert';
 import EditLinkModal from '@/components/EditLinkModal';
 import { useLinksByUser } from '@/util/db';
 import ToastMessage from '@/components/ToastMessage';
+import PageLoader from '@/components/PageLoader';
 
 import { Orbitron } from 'next/font/google';
 
@@ -45,7 +46,7 @@ const LinksPage = () => {
   const [toastMessage, setToastMessage] = useState(null);
 
   if (isLoading) {
-    return <Spinner animation="border" variant="success" />;
+    return <PageLoader />;
   }
   if (isError) {
     return <FormAlert type="error" message={error.message} />;
