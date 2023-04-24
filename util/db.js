@@ -138,6 +138,7 @@ export function useCategoriesByUser(filter) {
   return useQuery(
     ['categories'],
     async () => {
+      console.log('GOT HERE');
       let data;
       try {
         const response = await axios.get(`/api/categories`);

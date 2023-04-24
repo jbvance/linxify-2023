@@ -5,14 +5,14 @@ import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
 import { useForm } from 'react-hook-form';
 import FormAlert from 'components/FormAlert';
-import { useLink, createLink, updateLink } from '@/util/db';
+import { useCategory, updateCategory, deleteCategory } from '@/util/db';
 import styles from '@/styles/Modal.module.css';
 
-const EditLinkModal = (props) => {
-  // This will fetch link if props.id is defined
+const EditCategoryModal = (props) => {
+  // This will fetch individual recordif props.id is defined
   // Otherwise query does nothing and we assume
-  // we are creating a new link.
-  const { data: linkData, status: linkStatus } = useLink(props.id);
+  // we are creating a new record.
+  const { data, status } = useCategory(props.id);
   const [pending, setPending] = useState(false);
   const [formAlert, setFormAlert] = useState(null);
   const {
@@ -23,14 +23,14 @@ const EditLinkModal = (props) => {
 
   const onSubmit = (data) => {
     setPending(true);
-    console.log('DATA', data);
-    const query = props.id ? updateLink(props.id, data) : createLink(data);
+    const query = props.id
+      ? updateCategory(props.id, data)
+      : createCategory(data);
 
     query
       .then((response) => {
         console.log('RESPONSE', response);
         // Let parent know we're done so they can hide modal
-        const newOrUpdatedLink = response;
         props.onDone();
       })
       .catch((error) => {
@@ -45,9 +45,9 @@ const EditLinkModal = (props) => {
   };
 
   console.log('ERRORS', errors);
-  // If we are updating an existing link
-  // don't show modal until link data is fetched.
-  if (props.id && linkStatus !== 'success') {
+  // If we are updating an existing record
+  // don't show modal until data is fetched.
+  if (props.id && status !== 'success') {
     return null;
   }
 
@@ -56,7 +56,7 @@ const EditLinkModal = (props) => {
       <Modal.Header closeButton={true} className={styles.ModalHeader}>
         {props.id && <>Update</>}
         {!props.id && <>Create</>}
-        {` `}Link
+        {` `}Category
       </Modal.Header>
       <Modal.Body>
         {formAlert && (
@@ -68,7 +68,7 @@ const EditLinkModal = (props) => {
             <div className={styles.ModalInput}>
               <input
                 placeholder="Title"
-                defaultValue={linkData && linkData.title}
+                defaultValue={data && data.title}
                 {...register('title', { required: true })}
               />
               {errors.title && (
@@ -77,18 +77,8 @@ const EditLinkModal = (props) => {
             </div>
             <div className={styles.ModalInput}>
               <input
-                placeholder="Website Address (URL)"
-                defaultValue={linkData && linkData.url}
-                {...register('url', { required: true })}
-              />
-              {errors.url && (
-                <p className={styles.ModalInputError}>*URL is required.</p>
-              )}
-            </div>
-            <div className={styles.ModalInput}>
-              <input
                 placeholder="Description (optional)"
-                defaultValue={linkData && linkData.description}
+                defaultValue={data && data.description}
                 {...register('description')}
               />
             </div>
@@ -111,4 +101,4 @@ const EditLinkModal = (props) => {
   );
 };
 
-export default EditLinkModal;
+export default EditCategoryModal;
