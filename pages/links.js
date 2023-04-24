@@ -38,8 +38,9 @@ export async function getServerSideProps(context) {
 
 const LinksPage = () => {
   const [updatingLinkId, setUpdatingLinkId] = useState(null);
+  const [filter, setFilter] = useState('');
   const [creatingLink, setCreatingLink] = useState(null);
-  const { isLoading, isError, data, error } = useLinksByUser();
+  const { isLoading, isError, data, error } = useLinksByUser(filter);
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState(null);
 
@@ -48,10 +49,6 @@ const LinksPage = () => {
   }
   if (isError) {
     return <FormAlert type="error" message={error.message} />;
-  }
-
-  if (!data || data.length < 1) {
-    return <div>No Links</div>;
   }
 
   return (
@@ -73,13 +70,25 @@ const LinksPage = () => {
       </div>
       <Row>
         <h1 className={`${orbitron.className}`}>Your Links</h1>
+        <div className={styles.search_bar}>
+          <input
+            type="text"
+            placeholder="Search for Links"
+            value={filter}
+            onChange={(e) => setFilter(e.target.value)}
+          />
+        </div>
         <div style={{ marginBottom: '20px' }}>
           <Button variant="success" onClick={() => setCreatingLink(true)}>
             <FaPlusCircle color="white" style={{ marginRight: '10px' }} />
             Add Link
           </Button>
         </div>
-        <Links links={data} onEditLink={(id) => setUpdatingLinkId(id)} />
+        {data && data.length > 0 ? (
+          <Links links={data} onEditLink={(id) => setUpdatingLinkId(id)} />
+        ) : (
+          <FormAlert type="error" message="No links found" />
+        )}
       </Row>
       {updatingLinkId && (
         <EditLinkModal

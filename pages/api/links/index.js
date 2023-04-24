@@ -22,7 +22,7 @@ const handler = async (req, res) => {
   } else if (req.method === 'POST') {
     try {
       // verify url and title are both present
-      const { url, title } = req.body;
+      const { url, title, description } = req.body;
       if (!url || !title) {
         throw new Error('Must provide both url and title');
       }
@@ -31,6 +31,7 @@ const handler = async (req, res) => {
           url,
           title,
           userId: req.user.id,
+          description,
         },
       });
       console.log('LINK CREATED', link);

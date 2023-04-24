@@ -30,7 +30,7 @@ export function useLink(id) {
 }
 
 // Fetch all items by owner
-export function useLinksByUser() {
+export function useLinksByUser(filter) {
   return useQuery(
     ['links'],
     async () => {
@@ -41,11 +41,20 @@ export function useLinksByUser() {
         if (response.data && response.data.data) {
           data = response.data.data;
         }
+        return data;
       } catch (err) {
         console.log('ERROR', err);
-      } finally {
-        return data;
+        throw err;
       }
+    },
+    {
+      select: (links) =>
+        links.filter(
+          (link) =>
+            link.title.toUpperCase().includes(filter.toUpperCase()) ||
+            link.description.toUpperCase().includes(filter.toUpperCase()) ||
+            link.url.toUpperCase().includes(filter.toUpperCase())
+        ),
     }
     //{ enabled: !!userId }
   );

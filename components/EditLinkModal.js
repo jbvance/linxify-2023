@@ -24,7 +24,7 @@ const EditLinkModal = (props) => {
 
   const onSubmit = (data) => {
     setPending(true);
-
+    console.log('DATA', data);
     const query = props.id ? updateLink(props.id, data) : createLink(data);
 
     query
