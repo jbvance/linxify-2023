@@ -3,13 +3,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '@/styles/custom.scss';
 import Layout from '@/components/Layout';
 import { SessionProvider } from 'next-auth/react';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-
-const queryClient = new QueryClient();
+import { QueryClientProvider } from '@/util/db';
 
 export default function App({ Component, pageProps }) {
   return (
-    <QueryClientProvider client={queryClient}>
+    <QueryClientProvider>
       <SessionProvider session={pageProps.session}>
         <Layout>
           <Component {...pageProps} />
