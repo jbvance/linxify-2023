@@ -13,11 +13,7 @@ const PageLoader = () => {
         alignItems: 'center',
       }}
     >
-      <Spinner
-        animation="border"
-        variant="success"
-        style={{ margin: '0 auto' }}
-      />
+      <Spinner animation="border" variant="success" />
     </div>
   );
 };
