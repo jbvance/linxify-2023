@@ -82,7 +82,7 @@ const EditCategoryModal = (props) => {
             </div>
             <div className={styles.ModalInput}>
               <input
-                placeholder="Description (optional)"
+                placeholder="Description"
                 defaultValue={data && data.description}
                 {...register('description', { required: true })}
               />

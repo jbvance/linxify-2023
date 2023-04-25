@@ -1,4 +1,5 @@
-import React, { Fragment } from 'react';
+import React, { useState, Fragment } from 'react';
+import { getSession } from 'next-auth/react';
 import { Button, Col, Container, InputGroup, Row } from 'react-bootstrap';
 import { useRouter } from 'next/router';
 import { Formik, Form, useField } from 'formik';
@@ -6,11 +7,20 @@ import * as Yup from 'yup';
 import FormAlert from '@/components/FormAlert';
 import TextInput from '@/components/forms/TextInput';
 import SelectInput from '@/components/forms/Select';
-import { useCategoriesByUser } from '@/util/db';
+import { useCategoriesByUser, createLink } from '@/util/db';
 import PageLoader from '@/components/PageLoader';
 
 export async function getServerSideProps(context) {
   console.log(context.query);
+  const session = await getSession({ req: context.req });
+  if (!session) {
+    return {
+      redirect: {
+        destination: '/api/auth/signin',
+        permanent: false,
+      },
+    };
+  }
   return {
     props: {
       link: context.query.link || null,
@@ -19,7 +29,7 @@ export async function getServerSideProps(context) {
 }
 
 const NewLinkPage = ({ link }) => {
-  console.log('LINK', link);
+  const [isSaving, setIsSaving] = useState(false);
   const {
     data: categoriesData,
     status: categoriesStatus,
@@ -62,11 +72,25 @@ const NewLinkPage = ({ link }) => {
           description: Yup.string(),
           category: Yup.string(),
         })}
-        onSubmit={(values, { setSubmitting }) => {
-          setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
-            setSubmitting(false);
-          }, 400);
+        onSubmit={async (values, { setSubmitting }) => {
+          setIsSaving(true);
+          try {
+            const { url, title, description, category } = values;
+            await createLink({
+              url,
+              title,
+              description,
+              category,
+            });
+          } catch (err) {
+            console.log('ERROR', err.message);
+          } finally {
+            setIsSaving(false);
+          }
+          // setTimeout(() => {
+          //   alert(JSON.stringify(values, null, 2));
+          //   setSubmitting(false);
+          // }, 400);
         }}
       >
         <Container>
@@ -113,8 +137,12 @@ const NewLinkPage = ({ link }) => {
             </Row>
 
             <Row>
-              <Button type="submit" variant="success">
-                Save
+              <Button
+                style={{ maxWidth: '150px' }}
+                type="submit"
+                variant="success"
+              >
+                {isSaving ? 'Saving...' : 'Save'}
               </Button>
             </Row>
           </Form>
