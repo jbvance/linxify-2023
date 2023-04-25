@@ -72,6 +72,9 @@ const handler = async (req, res) => {
         where: {
           id: linkId,
         },
+        include: {
+          category: true,
+        },
       });
       if (!link) {
         return res.status(404).json({
@@ -80,6 +83,7 @@ const handler = async (req, res) => {
           message: `No link was found with id ${linkId}`,
         });
       }
+      //console.log('LINK', JSON.stringify(link));
       res.status(200).json({ status: 'success', data: link });
     } catch (err) {
       console.log('ERROR', err);
