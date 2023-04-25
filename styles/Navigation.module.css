@@ -7,3 +7,8 @@
 .link:hover {
   color: var(--primary-green);
 }
+
+.active_link {
+  color: var(--primary-green);
+  font-weight: 500;
+}
