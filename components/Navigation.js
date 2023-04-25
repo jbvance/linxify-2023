@@ -17,7 +17,6 @@ const orbitron = Orbitron({
 const Navigation = () => {
   const { data: session, status } = useSession();
   const router = useRouter();
-  console.log('PATH', router.pathname);
   return (
     <Navbar bg="light" expand="lg">
       <Container fluid>

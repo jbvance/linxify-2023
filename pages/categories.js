@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { getSession } from 'next-auth/react';
 import { Container, Row, Button } from 'react-bootstrap';
 import FormAlert from '@/components/FormAlert';
 import PageLoader from '@/components/PageLoader';
@@ -14,6 +15,23 @@ const orbitron = Orbitron({
   weight: '400',
   subsets: ['latin'],
 });
+
+export async function getServerSideProps(context) {
+  const session = await getSession({ req: context.req });
+  if (!session) {
+    console.log('NO SESSION');
+    return {
+      redirect: {
+        destination: '/api/auth/signin',
+        permanent: false,
+      },
+    };
+  } else {
+    return {
+      props: { session },
+    };
+  }
+}
 
 const CategoriesPage = () => {
   const [updatingCategoryId, setUpdatingCategoryId] = useState(null);
