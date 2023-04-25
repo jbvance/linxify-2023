@@ -3,7 +3,7 @@ import prisma from '@/lib/prisma';
 
 const handler = async (req, res) => {
   const { linkId } = req.query;
-  const { url, title, description } = req.body;
+  const { url, title, description, categoryId } = req.body;
   if (!linkId) {
     throw new Error('No Link Id was provided');
   }
@@ -26,6 +26,7 @@ const handler = async (req, res) => {
           url,
           title,
           description,
+          categoryId: categoryId ? categoryId : null,
         },
       });
       return res.status(200).json({

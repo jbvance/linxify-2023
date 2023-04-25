@@ -1,18 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
 import { useForm } from 'react-hook-form';
 import FormAlert from 'components/FormAlert';
-import { useLink, createLink, updateLink } from '@/util/db';
+import {
+  useLink,
+  createLink,
+  updateLink,
+  useCategoriesByUser,
+} from '@/util/db';
+import PageLoader from './PageLoader';
 import styles from '@/styles/Modal.module.css';
 
 const EditLinkModal = (props) => {
+  const [category, setCategory] = useState('');
+
   // This will fetch link if props.id is defined
   // Otherwise query does nothing and we assume
   // we are creating a new link.
-  const { data: linkData, status: linkStatus } = useLink(props.id);
+  const {
+    data: linkData,
+    status: linkStatus,
+    isLoading: isLinksLoading,
+  } = useLink(props.id);
+  const {
+    data: categoriesData,
+    status: categoriesStatus,
+    isLoading: isCategoriesLoading,
+  } = useCategoriesByUser();
   const [pending, setPending] = useState(false);
   const [formAlert, setFormAlert] = useState(null);
   const {
@@ -21,9 +38,16 @@ const EditLinkModal = (props) => {
     formState: { errors },
   } = useForm();
 
+  useEffect(() => {
+    console.log('LINKDATA', linkData);
+    if (linkData) {
+      setCategory(linkData.categoryId);
+    }
+  }, [linkData]);
+
   const onSubmit = (data) => {
-    setPending(true);
     console.log('DATA', data);
+    setPending(true);
     const query = props.id ? updateLink(props.id, data) : createLink(data);
 
     query
@@ -43,8 +67,12 @@ const EditLinkModal = (props) => {
         });
       });
   };
+  //console.log('CATS', categoriesData, isCategoriesLoading);
+  if (isLinksLoading || isCategoriesLoading) {
+    return <PageLoader />;
+  }
 
-  console.log('ERRORS', errors);
+  console.log('CATEGORIES', categoriesData);
   // If we are updating an existing link
   // don't show modal until link data is fetched.
   if (props.id && linkStatus !== 'success') {
@@ -91,6 +119,22 @@ const EditLinkModal = (props) => {
                 defaultValue={linkData && linkData.description}
                 {...register('description')}
               />
+            </div>
+            <div>
+              <select
+                defaultValue={linkData && linkData.categoryId}
+                onChange={(e) => setCategory(e.target.value)}
+                {...register('category')}
+              >
+                <option value="">Open this select menu</option>
+                {categoriesData.map((cat) => {
+                  return (
+                    <option key={cat.id} value={cat.id}>
+                      {cat.title}
+                    </option>
+                  );
+                })}
+              </select>
             </div>
           </Form.Group>
           <Button size="lg" variant="primary" type="submit" disabled={pending}>

@@ -33,7 +33,7 @@ export function useLink(id) {
 }
 
 // Fetch all items by owner
-export function useLinksByUser(filter) {
+export function useLinksByUser(filter = '') {
   return useQuery(
     ['links'],
     async () => {
@@ -69,6 +69,7 @@ export async function updateLink(id, data) {
       url: data.url,
       title: data.title,
       description: data.description,
+      categoryId: data.category,
     });
     await Promise.all([
       client.invalidateQueries(['link', { id }]),
@@ -134,11 +135,10 @@ export function useCategory(id) {
 }
 
 // Fetch all items by owner
-export function useCategoriesByUser(filter) {
+export function useCategoriesByUser(filter = '') {
   return useQuery(
     ['categories'],
     async () => {
-      console.log('GOT HERE');
       let data;
       try {
         const response = await axios.get(`/api/categories`);
@@ -146,7 +146,6 @@ export function useCategoriesByUser(filter) {
         if (response.data && response.data.data) {
           data = response.data.data;
         }
-        console.log('DATA', data);
         return data;
       } catch (err) {
         console.log('ERROR', err);
