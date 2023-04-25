@@ -1,0 +1,10 @@
+.error {
+  color: red;
+  background-color: #f5c2c7;
+  border-radius: 5px;
+}
+
+.label {
+  font-weight: 600;
+  color: var(--primary-green);
+}
