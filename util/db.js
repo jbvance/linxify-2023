@@ -41,8 +41,8 @@ export function useLinksByUser(filter) {
       try {
         const response = await axios.get(`/api/links`);
         console.log('RESPONSE', response);
-        if (response.data && response.data.data) {
-          data = response.data.data;
+        if (response.data && response.data.data.links) {
+          data = response.data.data.links;
         }
         return data;
       } catch (err) {

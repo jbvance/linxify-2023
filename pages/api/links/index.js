@@ -4,12 +4,21 @@ import prisma from '@/lib/prisma';
 const handler = async (req, res) => {
   if (req.method === 'GET') {
     try {
-      const links = await prisma.link.findMany({
+      // TEST GET USER WITH LINKS AND CATEGORIES
+      const user = await prisma.user.findUnique({
         where: {
-          userId: req.user.id,
+          id: req.user.id,
+        },
+        include: {
+          links: {
+            include: {
+              category: true,
+            },
+          },
         },
       });
-      res.status(200).json({ status: 'success', data: links });
+      //console.log('USER', user);
+      res.status(200).json({ status: 'success', data: user });
     } catch (err) {
       console.log('ERROR', err);
       res.status(401).json({
