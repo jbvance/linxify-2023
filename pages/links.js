@@ -101,14 +101,16 @@ const LinksPage = () => {
       )}
 
       {creatingLink && (
-        <EditLinkModal
-          onDone={() => {
-            setCreatingLink(false);
-            setToastMessage('Link Created!');
-            setShowToast(true);
-          }}
-          onHide={() => setCreatingLink(false)}
-        />
+        <>
+          <EditLinkModal
+            onDone={() => {
+              setCreatingLink(false);
+              setToastMessage('Link Created!');
+              setShowToast(true);
+            }}
+            onHide={() => setCreatingLink(false)}
+          />
+        </>
       )}
     </Container>
   );

@@ -67,10 +67,6 @@ const EditLinkModal = (props) => {
         });
       });
   };
-  //console.log('CATS', categoriesData, isCategoriesLoading);
-  if (isLinksLoading || isCategoriesLoading) {
-    return <PageLoader />;
-  }
 
   console.log('CATEGORIES', categoriesData);
   // If we are updating an existing link
@@ -78,6 +74,7 @@ const EditLinkModal = (props) => {
   if (props.id && linkStatus !== 'success') {
     return null;
   }
+  console.log('GOT HERE IN MODAL');
 
   return (
     <Modal show={true} centered={true} animation={false} onHide={props.onHide}>
@@ -127,13 +124,14 @@ const EditLinkModal = (props) => {
                 {...register('category')}
               >
                 <option value="">Open this select menu</option>
-                {categoriesData.map((cat) => {
-                  return (
-                    <option key={cat.id} value={cat.id}>
-                      {cat.title}
-                    </option>
-                  );
-                })}
+                {categoriesData &&
+                  categoriesData.map((cat) => {
+                    return (
+                      <option key={cat.id} value={cat.id}>
+                        {cat.title}
+                      </option>
+                    );
+                  })}
               </select>
             </div>
           </Form.Group>

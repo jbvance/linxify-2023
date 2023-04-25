@@ -81,12 +81,13 @@ export async function updateLink(id, data) {
   }
 }
 
-export async function createLink({ url, title, description }) {
+export async function createLink({ url, title, description, category }) {
   try {
     const response = await axios.post(`/api/links`, {
       url,
       title,
       description,
+      categoryId: category,
     });
     await Promise.all([client.invalidateQueries(['links'])]);
   } catch (err) {
