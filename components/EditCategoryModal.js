@@ -5,7 +5,12 @@ import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
 import { useForm } from 'react-hook-form';
 import FormAlert from 'components/FormAlert';
-import { useCategory, updateCategory, deleteCategory } from '@/util/db';
+import {
+  useCategory,
+  updateCategory,
+  createCategory,
+  deleteCategory,
+} from '@/util/db';
 import styles from '@/styles/Modal.module.css';
 
 const EditCategoryModal = (props) => {
@@ -79,8 +84,13 @@ const EditCategoryModal = (props) => {
               <input
                 placeholder="Description (optional)"
                 defaultValue={data && data.description}
-                {...register('description')}
+                {...register('description', { required: true })}
               />
+              {errors.description && (
+                <p className={styles.ModalInputError}>
+                  *Description is required.
+                </p>
+              )}
             </div>
           </Form.Group>
           <Button size="lg" variant="primary" type="submit" disabled={pending}>

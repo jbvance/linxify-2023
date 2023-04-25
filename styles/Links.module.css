@@ -6,7 +6,7 @@
 
 .grid_container > div {
   display: grid;
-  grid-template-columns: 8fr 2fr 2fr;
+  grid-template-columns: 4fr 4fr 2fr 2fr;
   grid-gap: 10px;
 }
 
@@ -26,12 +26,15 @@
 }
 .links_even {
   background-color: #33de78;
+  color: white;
 }
+
 .links_even a {
   color: white;
 }
 .links_odd {
   background-color: #e1e6e1;
+  color: var(--primary-green);
 }
 .links_odd a {
   color: var(--primary-green);

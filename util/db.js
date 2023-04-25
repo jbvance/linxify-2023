@@ -146,6 +146,7 @@ export function useCategoriesByUser(filter) {
         if (response.data && response.data.data) {
           data = response.data.data;
         }
+        console.log('DATA', data);
         return data;
       } catch (err) {
         console.log('ERROR', err);

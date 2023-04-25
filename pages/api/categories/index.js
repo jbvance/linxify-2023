@@ -9,7 +9,7 @@ const handler = async (req, res) => {
           userId: req.user.id,
         },
       });
-      res.status(200).json({ status: 'success', data: categories });
+      return res.status(200).json({ status: 'success', data: categories });
     } catch (err) {
       console.log('ERROR', err);
       res.status(401).json({
@@ -33,7 +33,7 @@ const handler = async (req, res) => {
           description,
         },
       });
-      res.status(201).json({ status: 'success', data: category });
+      return res.status(201).json({ status: 'success', data: category });
     } catch (err) {
       console.log('ERROR', err);
       res.status(400).json({

@@ -4,6 +4,7 @@ import styles from '@/styles/Links.module.css';
 import { deleteCategory } from '@/util/db';
 
 const Categories = ({ categories, onEditCategory }) => {
+  console.log('CATEGORIES', categories);
   return (
     <div className={styles.grid_container}>
       {categories.map((category, index) => {
@@ -15,6 +16,7 @@ const Categories = ({ categories, onEditCategory }) => {
             }`}
           >
             <div>{category.title}</div>
+            <div>{category.description}</div>
             <div>
               <Button
                 variant="outline-success"

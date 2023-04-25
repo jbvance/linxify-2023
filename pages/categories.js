@@ -8,13 +8,14 @@ import EditCategoryModal from '@/components/EditCategoryModal';
 import { useCategoriesByUser } from '@/util/db';
 import styles from '@/styles/Links.module.css';
 import { Orbitron } from 'next/font/google';
+import Categories from '@/components/Categories';
 
 const orbitron = Orbitron({
   weight: '400',
   subsets: ['latin'],
 });
 
-const Categories = () => {
+const CategoriesPage = () => {
   const [updatingCategoryId, setUpdatingCategoryId] = useState(null);
   const [filter, setFilter] = useState('');
   const [creatingCategory, setCreatingCategory] = useState(null);
@@ -48,14 +49,16 @@ const Categories = () => {
       </div>
       <Row>
         <h1 className={`${orbitron.className}`}>Your Categories</h1>
-        {/* <div className={styles.search_bar}>
-          <input
-            type="text"
-            placeholder="Search for Links"
-            value={filter}
-            onChange={(e) => setFilter(e.target.value)}
-          />
-          </div> */}
+        {
+          <div className={styles.search_bar}>
+            <input
+              type="text"
+              placeholder="Search Categories"
+              value={filter}
+              onChange={(e) => setFilter(e.target.value)}
+            />
+          </div>
+        }
         <div style={{ marginBottom: '20px' }}>
           <Button variant="success" onClick={() => setCreatingCategory(true)}>
             <FaPlusCircle color="white" style={{ marginRight: '10px' }} />
@@ -97,4 +100,4 @@ const Categories = () => {
   );
 };
 
-export default Categories;
+export default CategoriesPage;

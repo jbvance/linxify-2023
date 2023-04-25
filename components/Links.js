@@ -19,6 +19,7 @@ const Links = ({ links, onEditLink }) => {
                 {link.title}
               </a>
             </div>
+            <div>{link.description}</div>
             <div>
               <Button
                 variant="outline-success"
