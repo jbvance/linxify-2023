@@ -6,6 +6,17 @@ const handler = async (req, res) => {
     try {
       const orderByField = req.query.orderByField || 'title';
       const orderByValue = req.query.orderByValue || 'asc';
+      const filter = req.query.filter || '';
+      let where = {};
+      if (filter) {
+        where = {
+          OR: [
+            { title: { contains: filter, mode: 'insensitive' } },
+            { url: { contains: filter, mode: 'insensitive' } },
+            { description: { contains: filter, mode: 'insensitive' } },
+          ],
+        };
+      }
       // Get user and include links
       const user = await prisma.user.findUnique({
         where: {
@@ -13,6 +24,7 @@ const handler = async (req, res) => {
         },
         include: {
           links: {
+            where,
             orderBy: {
               [orderByField]: orderByValue,
             },

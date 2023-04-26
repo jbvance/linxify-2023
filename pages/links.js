@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { Container, Row, Col, Button, Spinner, Toast } from 'react-bootstrap';
 import styles from '@/styles/Links.module.css';
 import { getSession } from 'next-auth/react';
@@ -9,6 +9,7 @@ import EditLinkModal from '@/components/EditLinkModal';
 import { useLinksByUser } from '@/util/db';
 import ToastMessage from '@/components/ToastMessage';
 import PageLoader from '@/components/PageLoader';
+import useDebounce from '@/hooks/useDebounce';
 
 import { Orbitron } from 'next/font/google';
 
@@ -38,13 +39,21 @@ const LinksPage = () => {
   const [updatingLinkId, setUpdatingLinkId] = useState(null);
   const [filter, setFilter] = useState('');
   const [creatingLink, setCreatingLink] = useState(null);
-  const { isLoading, isError, data, error } = useLinksByUser(filter);
+  const { isLoading, isError, data, error, refetch } = useLinksByUser(filter);
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState(null);
 
-  if (isLoading) {
-    return <PageLoader />;
-  }
+  // DeBounce Function
+  useDebounce(
+    () => {
+      refetch();
+    },
+    [filter],
+    800
+  );
+
+  const handleSearch = (e) => setFilter(e.target.value);
+
   if (isError) {
     return <FormAlert type="error" message={error.message} />;
   }
@@ -73,7 +82,7 @@ const LinksPage = () => {
             type="text"
             placeholder="Search for Links"
             value={filter}
-            onChange={(e) => setFilter(e.target.value)}
+            onChange={handleSearch}
           />
         </div>
         <div style={{ marginBottom: '20px' }}>
@@ -82,7 +91,9 @@ const LinksPage = () => {
             Add Link
           </Button>
         </div>
-        {data && data.length > 0 ? (
+        {isLoading ? (
+          <PageLoader />
+        ) : data && data.length > 0 ? (
           <Links links={data} onEditLink={(id) => setUpdatingLinkId(id)} />
         ) : (
           <FormAlert type="error" message="No links found" />

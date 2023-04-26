@@ -33,13 +33,19 @@ export function useLink(id) {
 }
 
 // Fetch all items by owner
-export function useLinksByUser(filter = '') {
+export function useLinksByUser(
+  filter = '',
+  orderByField = 'title',
+  orderByValue = 'asc'
+) {
   return useQuery(
-    ['links'],
+    ['links', { filter }],
     async () => {
       let data;
       try {
-        const response = await axios.get(`/api/links`);
+        const response = await axios.get(
+          `/api/links?orderByField=${orderByField}&orderByValue=${orderByValue}&filter=${filter}`
+        );
         console.log('RESPONSE', response);
         if (response.data && response.data.data.links) {
           data = response.data.data.links;
