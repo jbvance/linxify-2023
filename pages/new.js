@@ -1,6 +1,13 @@
 import React, { useState, Fragment } from 'react';
 import { getSession } from 'next-auth/react';
-import { Button, Col, Container, InputGroup, Row } from 'react-bootstrap';
+import {
+  Button,
+  Col,
+  Container,
+  InputGroup,
+  Row,
+  Spinner,
+} from 'react-bootstrap';
 import { useRouter } from 'next/router';
 import { Formik, Form, useField } from 'formik';
 import * as Yup from 'yup';
@@ -44,16 +51,6 @@ const NewLinkPage = ({ link }) => {
     return <PageLoader />;
   }
 
-  if (!link) {
-    return (
-      <FormAlert
-        type="error"
-        message="No 'link' was provided. Please look at the address bar and make sure you have provided
-    the correct format. The address should contain 'new?link=' followed by the name website address you would like to bookmark."
-      />
-    );
-  }
-
   return (
     <Fragment>
       <h1 style={{ textAlign: 'center', color: 'var(--primary-green)' }}>
@@ -67,7 +64,7 @@ const NewLinkPage = ({ link }) => {
           category: '',
         }}
         validationSchema={Yup.object({
-          url: Yup.string().required('Required'),
+          url: Yup.string().required('Please enter website'),
           title: Yup.string().required('Required'),
           description: Yup.string(),
           category: Yup.string(),
@@ -141,8 +138,18 @@ const NewLinkPage = ({ link }) => {
                 style={{ maxWidth: '150px' }}
                 type="submit"
                 variant="success"
+                disabled={isSaving}
               >
-                {isSaving ? 'Saving...' : 'Save'}
+                <span>Save</span>
+                {isSaving && (
+                  <Spinner
+                    animation="border"
+                    size="sm"
+                    role="status"
+                    aria-hidden={true}
+                    style={{ marginLeft: '10px' }}
+                  ></Spinner>
+                )}
               </Button>
             </Row>
           </Form>

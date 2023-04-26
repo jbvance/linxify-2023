@@ -1,9 +1,25 @@
-import React from 'react';
-import { Button } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Button, Spinner } from 'react-bootstrap';
 import styles from '@/styles/Links.module.css';
 import { deleteLink } from '@/util/db';
+import FormAlert from './FormAlert';
 
 const Links = ({ links, onEditLink }) => {
+  const [deleteLinkId, setDeleteLinkId] = useState(null);
+  const [error, setError] = useState(null);
+
+  const onDeleteLink = async (id) => {
+    try {
+      setError(null);
+      setDeleteLinkId(id);
+      await deleteLink(id);
+    } catch (err) {
+      setError('Error Deleting link. Please try again');
+      console.log('ERROR DELETING LINK', err.message);
+    } finally {
+      setDeleteLinkId(null);
+    }
+  };
   return (
     <div className={styles.grid_container}>
       {links.map((link, index) => {
@@ -33,14 +49,26 @@ const Links = ({ links, onEditLink }) => {
               <Button
                 variant="outline-danger"
                 style={{ width: '100%' }}
-                onClick={() => deleteLink(link.id)}
+                onClick={() => onDeleteLink(link.id)}
               >
-                Delete
+                {deleteLinkId === link.id && (
+                  <Spinner
+                    animation="border"
+                    size="sm"
+                    role="status"
+                    aria-hidden={true}
+                    style={{ marginRight: '10px' }}
+                  ></Spinner>
+                )}
+                <span>
+                  {deleteLinkId === link.id ? 'Deleting...' : 'Delete'}
+                </span>
               </Button>
             </div>
           </div>
         );
       })}
+      {error && <FormAlert type="error" message={error} />}
     </div>
   );
 };
