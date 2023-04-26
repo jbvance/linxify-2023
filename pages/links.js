@@ -12,6 +12,7 @@ import ToastMessage from '@/components/ToastMessage';
 import PageLoader from '@/components/PageLoader';
 import useDebounce from '@/hooks/useDebounce';
 import { getLinksByUser } from '@/util/db';
+import useToast from '@/hooks/useToast';
 
 import { Orbitron } from 'next/font/google';
 
@@ -50,11 +51,12 @@ const LinksPage = () => {
   const [updatingLinkId, setUpdatingLinkId] = useState(null);
   const [filter, setFilter] = useState('');
   const [creatingLink, setCreatingLink] = useState(null);
-  const [showToast, setShowToast] = useState(false);
-  const [toastMessage, setToastMessage] = useState(null);
+  //const [showToast, setShowToast] = useState(false);
+  //const [toastMessage, setToastMessage] = useState(null);
   const debouncedSearch = useDebounce(filter, 800);
   const { isLoading, isError, data, error, refetch } =
     useLinks(debouncedSearch);
+  const { setShowToast, setToastMessage, showToast, ToastCustom } = useToast();
 
   // DeBounce Function
   useDebounce(
@@ -65,29 +67,18 @@ const LinksPage = () => {
     800
   );
 
-  const handleSearch = (e) => setFilter(e.target.value);
+  useEffect(() => {
+    console.log('SHOW TOAST', showToast);
+  }, [showToast]);
 
+  const handleSearch = (e) => setFilter(e.target.value);
   if (isError) {
     return <FormAlert type="error" message={error.message} />;
   }
-
   return (
     <Container className={styles.links}>
-      <div style={{ position: 'absolute', top: '5%', left: '50%' }}>
-        {showToast && toastMessage && (
-          <ToastMessage
-            bg="success"
-            onClose={() => {
-              setShowToast(false);
-              setToastMessage(null);
-            }}
-            show={true}
-            headerText=""
-            bodyText={toastMessage}
-            bodyStyle={{ color: 'white', fontSize: '2rem' }}
-          />
-        )}
-      </div>
+      <ToastCustom />
+      <div style={{ position: 'absolute', top: '5%', left: '50%' }}></div>
       <Row>
         <h1 className={`${orbitron.className}`}>Your Links</h1>
         <div className={styles.search_bar}>

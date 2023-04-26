@@ -40,7 +40,7 @@ const Categories = ({ categories, onEditCategory }) => {
                 <Button
                   variant="outline-danger"
                   style={{ width: '100%' }}
-                  onClick={() => onDeleteCategory(category.id)}
+                  onClick={() => deleteCategory(category.id)}
                 >
                   {deleteCategoryId === category.id && (
                     <Spinner

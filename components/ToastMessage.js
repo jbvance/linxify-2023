@@ -7,10 +7,11 @@ const ToastMessage = ({
   headerText = '',
   bodyText,
   bodyStyle = {},
+  delay = 3000,
   ...props
 }) => {
   return (
-    <Toast onClose={onClose} show={show} delay={3000} autohide {...props}>
+    <Toast onClose={onClose} show={show} delay={delay} autohide {...props}>
       <Toast.Header>
         <strong className="me-auto">{headerText}</strong>
       </Toast.Header>
