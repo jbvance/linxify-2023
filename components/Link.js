@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Spinner } from 'react-bootstrap';
 import styles from '@/styles/Links.module.css';
+import { FaRegTrashAlt, FaRegEdit } from 'react-icons/fa';
 
 const Link = ({ link, onEditLink, onDeleteLink, index }) => {
   const [showManageLinkId, setShowManageLinkId] = useState(-1);
@@ -38,34 +39,23 @@ const Link = ({ link, onEditLink, onDeleteLink, index }) => {
           visibility: showManageLinkId === index ? '' : 'hidden',
         }}
       >
-        <div>
-          <Button
-            size="sm"
-            variant="outline-success"
-            style={{ width: '100%' }}
+        <div className={styles.manage_link_item}>
+          <FaRegEdit
+            title="Edit"
+            className={styles.edit_item}
             onClick={() => onEditLink(link.id)}
-          >
-            Edit
-          </Button>
+          />
         </div>
-        <div>
-          <Button
-            size="sm"
-            variant="outline-danger"
-            style={{ width: '100%' }}
-            onClick={handleDelete}
-          >
-            {isDeleting && (
-              <Spinner
-                animation="border"
-                size="sm"
-                role="status"
-                aria-hidden={true}
-                style={{ marginRight: '10px' }}
-              ></Spinner>
-            )}
-            <span>Delete</span>
-          </Button>
+        <div className={styles.manage_link_item}>
+          {isDeleting ? (
+            <Spinner size="sm" className={styles.delete_item} />
+          ) : (
+            <FaRegTrashAlt
+              title="Delete"
+              className={styles.delete_item}
+              onClick={handleDelete}
+            />
+          )}
         </div>
       </div>
     </div>

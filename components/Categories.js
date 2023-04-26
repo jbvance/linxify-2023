@@ -1,11 +1,23 @@
 import React, { useState } from 'react';
 import { Button, Spinner } from 'react-bootstrap';
+import { FaRegTrashAlt, FaRegEdit } from 'react-icons/fa';
 import styles from '@/styles/Links.module.css';
 import { deleteCategory } from '@/util/db';
 
 const Categories = ({ categories, onEditCategory }) => {
-  const [deleteCategoryId, setDeleteCategoryId] = useState(null);
   const [showManageCategoryId, setShowManageCategoryId] = useState(-1);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  const handleDelete = async (id) => {
+    try {
+      setIsDeleting(true);
+      await deleteCategory(id);
+    } catch (err) {
+      throw err;
+    } finally {
+      setIsDeleting(false);
+    }
+  };
 
   return (
     <div className={styles.grid_container}>
@@ -28,31 +40,22 @@ const Categories = ({ categories, onEditCategory }) => {
               }}
             >
               <div>
-                <Button
-                  variant="outline-success"
-                  style={{ width: '100%' }}
+                <FaRegEdit
+                  title="Edit"
+                  className={styles.edit_item}
                   onClick={() => onEditCategory(category.id)}
-                >
-                  Edit
-                </Button>
+                />
               </div>
               <div>
-                <Button
-                  variant="outline-danger"
-                  style={{ width: '100%' }}
-                  onClick={() => deleteCategory(category.id)}
-                >
-                  {deleteCategoryId === category.id && (
-                    <Spinner
-                      animation="border"
-                      size="sm"
-                      role="status"
-                      aria-hidden={true}
-                      style={{ marginRight: '10px' }}
-                    ></Spinner>
-                  )}
-                  <span>Delete</span>
-                </Button>
+                {isDeleting ? (
+                  <Spinner size="sm" className={styles.delete_item} />
+                ) : (
+                  <FaRegTrashAlt
+                    title="Delete"
+                    className={styles.delete_item}
+                    onClick={() => handleDelete(category.id)}
+                  />
+                )}
               </div>
             </div>
           </div>

@@ -58,10 +58,29 @@
 }
 
 .manage_link {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 5px;
-  justify-content: end;
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+}
+
+.manage_link_item {
+  margin: 0 5px;
+}
+
+.delete_item {
+  margin-left: 20px;
+  color: red;
+  font-size: large;
+}
+
+.edit_item {
+  color: gray;
+  font-size: large;
+}
+
+.delete_item:hover,
+.edit_item:hover {
+  cursor: pointer;
 }
 
 @media only screen and (max-width: 768px) {
