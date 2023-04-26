@@ -32,6 +32,28 @@ export function useLink(id) {
   );
 }
 
+// Export the function for getting links here so we
+// can use it in Links page to call with debouncing
+export async function getLinksByUser(
+  filter = '',
+  orderByField = 'title',
+  orderByValue = 'asc'
+) {
+  let data;
+  try {
+    const response = await axios.get(
+      `/api/links?orderByField=${orderByField}&orderByValue=${orderByValue}&filter=${filter}`
+    );
+    console.log('RESPONSE', response);
+    if (response.data && response.data.data.links) {
+      data = response.data.data.links;
+    }
+    return data;
+  } catch (err) {
+    console.log('ERROR', err);
+    throw err;
+  }
+}
 // Fetch all items by owner
 export function useLinksByUser(
   filter = '',
@@ -40,22 +62,7 @@ export function useLinksByUser(
 ) {
   return useQuery(
     ['links', { filter }],
-    async () => {
-      let data;
-      try {
-        const response = await axios.get(
-          `/api/links?orderByField=${orderByField}&orderByValue=${orderByValue}&filter=${filter}`
-        );
-        console.log('RESPONSE', response);
-        if (response.data && response.data.data.links) {
-          data = response.data.data.links;
-        }
-        return data;
-      } catch (err) {
-        console.log('ERROR', err);
-        throw err;
-      }
-    }
+    async () => getLinksByUser(filter, orderByField, orderByValue)
     // {
     //   select: (links) =>
     //     links.filter(
@@ -68,35 +75,6 @@ export function useLinksByUser(
     //{ enabled: !!userId }
   );
 }
-// export function useLinksByUser(filter = '') {
-//   return useQuery(
-//     ['links'],
-//     async () => {
-//       let data;
-//       try {
-//         const response = await axios.get(`/api/links`);
-//         console.log('RESPONSE', response);
-//         if (response.data && response.data.data.links) {
-//           data = response.data.data.links;
-//         }
-//         return data;
-//       } catch (err) {
-//         console.log('ERROR', err);
-//         throw err;
-//       }
-//     },
-//     {
-//       select: (links) =>
-//         links.filter(
-//           (link) =>
-//             link.title.toUpperCase().includes(filter.toUpperCase()) ||
-//             link.description.toUpperCase().includes(filter.toUpperCase()) ||
-//             link.url.toUpperCase().includes(filter.toUpperCase())
-//         ),
-//     }
-//     //{ enabled: !!userId }
-//   );
-// }
 
 export async function updateLink(id, data) {
   try {

@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { Container, Row, Col, Button, Spinner, Toast } from 'react-bootstrap';
+import { useQuery } from '@tanstack/react-query';
 import styles from '@/styles/Links.module.css';
 import { getSession } from 'next-auth/react';
 import Links from '@/components/Links';
@@ -10,6 +11,7 @@ import { useLinksByUser } from '@/util/db';
 import ToastMessage from '@/components/ToastMessage';
 import PageLoader from '@/components/PageLoader';
 import useDebounce from '@/hooks/useDebounce';
+import { getLinksByUser } from '@/util/db';
 
 import { Orbitron } from 'next/font/google';
 
@@ -35,13 +37,24 @@ export async function getServerSideProps(context) {
   }
 }
 
+function useLinks(filter) {
+  return useQuery(
+    ['links', { filter }],
+    () => getLinksByUser(filter)
+    // the following can be used to avoid refetches on already fetched data (see paginated queries docs)
+    // { keepPreviousData: true, staleTime: 5 * 60 * 1000 }
+  );
+}
+
 const LinksPage = () => {
   const [updatingLinkId, setUpdatingLinkId] = useState(null);
   const [filter, setFilter] = useState('');
   const [creatingLink, setCreatingLink] = useState(null);
-  const { isLoading, isError, data, error, refetch } = useLinksByUser(filter);
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState(null);
+  const debouncedSearch = useDebounce(filter, 800);
+  const { isLoading, isError, data, error, refetch } =
+    useLinks(debouncedSearch);
 
   // DeBounce Function
   useDebounce(
