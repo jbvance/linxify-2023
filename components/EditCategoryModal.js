@@ -93,7 +93,12 @@ const EditCategoryModal = (props) => {
               )}
             </div>
           </Form.Group>
-          <Button size="lg" variant="primary" type="submit" disabled={pending}>
+          <Button
+            size="md"
+            className={styles.ModalButton}
+            type="submit"
+            disabled={pending}
+          >
             <span>Save </span>
             {pending && (
               <Spinner

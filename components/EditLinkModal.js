@@ -117,7 +117,7 @@ const EditLinkModal = (props) => {
                 {...register('description')}
               />
             </div>
-            <div>
+            <div className={styles.ModalInput}>
               <select
                 defaultValue={linkData && linkData.categoryId}
                 onChange={(e) => setCategory(e.target.value)}
@@ -135,7 +135,12 @@ const EditLinkModal = (props) => {
               </select>
             </div>
           </Form.Group>
-          <Button size="lg" variant="primary" type="submit" disabled={pending}>
+          <Button
+            size="md"
+            className={styles.ModalButton}
+            type="submit"
+            disabled={pending}
+          >
             <span>Save </span>
             {pending && (
               <Spinner
