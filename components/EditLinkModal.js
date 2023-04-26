@@ -39,20 +39,17 @@ const EditLinkModal = (props) => {
   } = useForm();
 
   useEffect(() => {
-    console.log('LINKDATA', linkData);
     if (linkData) {
       setCategory(linkData.categoryId);
     }
   }, [linkData]);
 
   const onSubmit = (data) => {
-    console.log('DATA', data);
     setPending(true);
     const query = props.id ? updateLink(props.id, data) : createLink(data);
 
     query
       .then((response) => {
-        console.log('RESPONSE', response);
         // Let parent know we're done so they can hide modal
         const newOrUpdatedLink = response;
         props.onDone();
@@ -68,13 +65,11 @@ const EditLinkModal = (props) => {
       });
   };
 
-  console.log('CATEGORIES', categoriesData);
   // If we are updating an existing link
   // don't show modal until link data is fetched.
   if (props.id && linkStatus !== 'success') {
     return null;
   }
-  console.log('GOT HERE IN MODAL');
 
   return (
     <Modal show={true} centered={true} animation={false} onHide={props.onHide}>
@@ -91,6 +86,9 @@ const EditLinkModal = (props) => {
         <Form onSubmit={handleSubmit(onSubmit)}>
           <Form.Group controlId="formName">
             <div className={styles.ModalInput}>
+              <label htmlFor="title" className={styles.ModalLabel}>
+                Title
+              </label>
               <input
                 placeholder="Title"
                 defaultValue={linkData && linkData.title}
@@ -101,6 +99,9 @@ const EditLinkModal = (props) => {
               )}
             </div>
             <div className={styles.ModalInput}>
+              <label htmlFor="url" className={styles.ModalLabel}>
+                URL (Website Address)
+              </label>
               <input
                 placeholder="Website Address (URL)"
                 defaultValue={linkData && linkData.url}
@@ -111,6 +112,9 @@ const EditLinkModal = (props) => {
               )}
             </div>
             <div className={styles.ModalInput}>
+              <label htmlFor="description" className={styles.ModalLabel}>
+                Description
+              </label>
               <input
                 placeholder="Description (optional)"
                 defaultValue={linkData && linkData.description}
@@ -118,12 +122,16 @@ const EditLinkModal = (props) => {
               />
             </div>
             <div className={styles.ModalInput}>
+              <label htmlFor="category" className={styles.ModalLabel}>
+                Category
+              </label>
               <select
+                className={styles.ModalInput}
                 defaultValue={linkData && linkData.categoryId}
                 onChange={(e) => setCategory(e.target.value)}
                 {...register('category')}
               >
-                <option value="">Open this select menu</option>
+                <option value="">None</option>
                 {categoriesData &&
                   categoriesData.map((cat) => {
                     return (

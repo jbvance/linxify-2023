@@ -12,3 +12,16 @@
   color: var(--primary-green);
   font-weight: 500;
 }
+
+.auth_button {
+  background-color: var(--primary-green);
+  color: white;
+  border: 1px solid var(--primary-green);
+  max-width: 150px;
+  padding: 2px 25px;
+}
+
+.auth_button:hover {
+  background-color: green;
+  border: 1px solid var(--primary-green);
+}

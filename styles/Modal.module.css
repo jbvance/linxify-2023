@@ -5,13 +5,18 @@
   text-align: center;
 }
 
+.ModalLabel {
+  font-weight: 600;
+  color: var(--primary-green);
+}
+
 .ModalInput {
   margin: 20px;
 }
 
-.ModalInput input {
+.ModalInput input,
+.ModalInput select {
   margin: 10px auto;
-
   width: 100%;
 }
 

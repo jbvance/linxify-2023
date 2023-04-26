@@ -99,7 +99,6 @@ export async function createLink({ url, title, description, category }) {
 export async function deleteLink(id) {
   try {
     const response = await axios.delete(`/api/links/${id}`);
-    console.log('LINK DELETED');
     await Promise.all([
       client.invalidateQueries(['link', { id }]),
       client.invalidateQueries(['links']),

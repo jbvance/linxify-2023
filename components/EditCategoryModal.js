@@ -71,6 +71,9 @@ const EditCategoryModal = (props) => {
         <Form onSubmit={handleSubmit(onSubmit)}>
           <Form.Group controlId="formName">
             <div className={styles.ModalInput}>
+              <label htmlFor="title" className={styles.ModalLabel}>
+                Title
+              </label>
               <input
                 placeholder="Title"
                 defaultValue={data && data.title}
@@ -81,6 +84,9 @@ const EditCategoryModal = (props) => {
               )}
             </div>
             <div className={styles.ModalInput}>
+              <label htmlFor="description" className={styles.ModalLabel}>
+                Description
+              </label>
               <input
                 placeholder="Description"
                 defaultValue={data && data.description}
