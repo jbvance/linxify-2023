@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Spinner } from 'react-bootstrap';
+import { FaRegTrashAlt } from 'react-icons/fa';
 import styles from '@/styles/Links.module.css';
 import { deleteLink } from '@/util/db';
 import FormAlert from './FormAlert';
@@ -47,6 +48,7 @@ const Links = ({ links, onEditLink }) => {
             >
               <div>
                 <Button
+                  size="sm"
                   variant="outline-success"
                   style={{ width: '100%' }}
                   onClick={() => onEditLink(link.id)}
@@ -56,6 +58,7 @@ const Links = ({ links, onEditLink }) => {
               </div>
               <div>
                 <Button
+                  size="sm"
                   variant="outline-danger"
                   style={{ width: '100%' }}
                   onClick={() => onDeleteLink(link.id)}

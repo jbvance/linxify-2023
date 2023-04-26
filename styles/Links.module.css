@@ -20,13 +20,18 @@
 }
 .links_row {
   padding: 10px;
-  border-radius: 5px;
+  border-radius: 0px;
   margin-bottom: 2px;
 }
 
 .links_even {
   background-color: #33de78;
   color: white;
+}
+
+.links_even:hover,
+.links_odd:hover {
+  box-shadow: 0 0 10px #2b2b2a;
 }
 
 .links_even a {
@@ -56,6 +61,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: 5px;
+  justify-content: end;
 }
 
 @media only screen and (max-width: 768px) {
