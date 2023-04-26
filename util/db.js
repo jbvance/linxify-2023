@@ -11,6 +11,28 @@ const client = new QueryClient();
 /**********************************************
  * LINKS
  **********************************************/
+
+// Get number of links for user
+export function useLinkCountByUser(userId) {
+  return useQuery(
+    ['linkCount'],
+    async () => {
+      let userLinkCount = 0;
+      try {
+        const response = await axios.get(`api/links/count`);
+        if (response.data && response.data.data.count) {
+          userLinkCount = response.data.data.count;
+        }
+      } catch (err) {
+        console.log(`Error in getUserLinkCount - ${err.message}`);
+      } finally {
+        return userLinkCount;
+      }
+    },
+    { enabled: !!userId }
+  );
+}
+
 export function useLink(id) {
   return useQuery(
     ['link', { id }],
@@ -33,13 +55,13 @@ export function useLink(id) {
 }
 
 // Fetch all items by owner
-export function useLinksByUser(filter = '') {
+export function useLinksByUser(filter = '', page = 1) {
   return useQuery(
     ['links'],
     async () => {
       let data;
       try {
-        const response = await axios.get(`/api/links`);
+        const response = await axios.get(`/api/links?page=${page}`);
         console.log('RESPONSE', response);
         if (response.data && response.data.data.links) {
           data = response.data.data.links;

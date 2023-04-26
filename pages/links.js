@@ -1,12 +1,20 @@
-import React, { useState } from 'react';
-import { Container, Row, Col, Button, Spinner, Toast } from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
+import {
+  Container,
+  Row,
+  Col,
+  Button,
+  Pagination,
+  Spinner,
+  Toast,
+} from 'react-bootstrap';
 import styles from '@/styles/Links.module.css';
 import { getSession } from 'next-auth/react';
 import Links from '@/components/Links';
 import { FaPlusCircle } from 'react-icons/fa';
 import FormAlert from '@/components/FormAlert';
 import EditLinkModal from '@/components/EditLinkModal';
-import { useLinksByUser } from '@/util/db';
+import { useLinksByUser, useLinkCountByUser } from '@/util/db';
 import ToastMessage from '@/components/ToastMessage';
 import PageLoader from '@/components/PageLoader';
 
@@ -34,15 +42,50 @@ export async function getServerSideProps(context) {
   }
 }
 
-const LinksPage = () => {
+const LinksPage = ({ session }) => {
+  const [page, setPage] = useState(1);
   const [updatingLinkId, setUpdatingLinkId] = useState(null);
   const [filter, setFilter] = useState('');
   const [creatingLink, setCreatingLink] = useState(null);
-  const { isLoading, isError, data, error } = useLinksByUser(filter);
+  const {
+    isLoading,
+    isFetching,
+    isError,
+    isPreviousData,
+    data,
+    error,
+    refetch,
+  } = useLinksByUser(filter, page);
+  const { isLoading: isCountLoading, data: linkCountData } = useLinkCountByUser(
+    session.user.id
+  );
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState(null);
 
-  if (isLoading) {
+  useEffect(() => {
+    refetch();
+  }, [page, refetch]);
+
+  const createPaginationItems = () => {
+    const numPages = Math.ceil(linkCountData / 5);
+    let items = [];
+    for (let i = 1; i <= numPages; i++) {
+      items.push(
+        <Pagination.Item
+          key={i}
+          active={i === page}
+          onClick={async () => {
+            setPage(i);
+          }}
+        >
+          {i}
+        </Pagination.Item>
+      );
+    }
+    return items;
+  };
+
+  if (isLoading || isCountLoading) {
     return <PageLoader />;
   }
   if (isError) {
@@ -66,7 +109,7 @@ const LinksPage = () => {
           />
         )}
       </div>
-      <Row>
+      <div>
         <h1 className={`${orbitron.className}`}>Your Links</h1>
         <div className={styles.search_bar}>
           <input
@@ -82,12 +125,19 @@ const LinksPage = () => {
             Add Link
           </Button>
         </div>
-        {data && data.length > 0 ? (
+        {isFetching ? (
+          <PageLoader />
+        ) : data && data.length > 0 ? (
           <Links links={data} onEditLink={(id) => setUpdatingLinkId(id)} />
         ) : (
           <FormAlert type="error" message="No links found" />
         )}
-      </Row>
+      </div>
+      <div>
+        <Pagination className={styles.pagination1}>
+          {createPaginationItems()}
+        </Pagination>
+      </div>
       {updatingLinkId && (
         <EditLinkModal
           id={updatingLinkId}

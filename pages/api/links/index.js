@@ -1,8 +1,26 @@
 import requireAuth from '../_requireAuth';
 import prisma from '@/lib/prisma';
 
+const getUserLinksPaginated = async (userId, page, pageSize) => {
+  try {
+    const results = await prisma.link.findMany({
+      where: {
+        userId,
+      },
+      skip: (page - 1) * pageSize,
+      take: pageSize,
+    });
+    return results;
+  } catch (err) {
+    console.log('Error getting paginated links', err.message);
+    throw new Error(`Error getting paginated links => ${err.message}`);
+  }
+};
+
 const handler = async (req, res) => {
   if (req.method === 'GET') {
+    const pageSize = 5;
+    const page = parseInt(req.query.page);
     try {
       // TEST GET USER WITH LINKS AND CATEGORIES
       const user = await prisma.user.findUnique({
@@ -17,8 +35,14 @@ const handler = async (req, res) => {
           },
         },
       });
-      //console.log('USER', user);
-      res.status(200).json({ status: 'success', data: user });
+      let links = [];
+      if (user.links && user.links.length > 0) {
+        links = await getUserLinksPaginated(user.id, page, pageSize);
+      }
+
+      res
+        .status(200)
+        .json({ status: 'success', data: { ...user, links: [...links] } });
     } catch (err) {
       console.log('ERROR', err);
       res.status(401).json({
@@ -44,7 +68,6 @@ const handler = async (req, res) => {
           categoryId: categoryId ? categoryId : null,
         },
       });
-      console.log('LINK CREATED', link);
       res.status(201).json({ status: 'success', data: link });
     } catch (err) {
       console.log('ERROR', err);
