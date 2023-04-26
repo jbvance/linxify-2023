@@ -6,8 +6,7 @@
 
 .grid_container > div {
   display: grid;
-  grid-template-columns: 4fr 4fr 2fr 2fr;
-  grid-gap: 10px;
+  grid-template-columns: 4fr 5fr 4fr;
 }
 
 .links h1 {
@@ -24,6 +23,7 @@
   border-radius: 5px;
   margin-bottom: 2px;
 }
+
 .links_even {
   background-color: #33de78;
   color: white;
@@ -50,6 +50,12 @@
 .search_bar input {
   width: 100%;
   padding: 5px 10px;
+}
+
+.manage_link {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 5px;
 }
 
 @media only screen and (max-width: 768px) {

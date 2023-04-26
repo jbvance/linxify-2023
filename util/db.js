@@ -49,19 +49,48 @@ export function useLinksByUser(filter = '') {
         console.log('ERROR', err);
         throw err;
       }
-    },
-    {
-      select: (links) =>
-        links.filter(
-          (link) =>
-            link.title.toUpperCase().includes(filter.toUpperCase()) ||
-            link.description.toUpperCase().includes(filter.toUpperCase()) ||
-            link.url.toUpperCase().includes(filter.toUpperCase())
-        ),
     }
+    // {
+    //   select: (links) =>
+    //     links.filter(
+    //       (link) =>
+    //         link.title.toUpperCase().includes(filter.toUpperCase()) ||
+    //         link.description.toUpperCase().includes(filter.toUpperCase()) ||
+    //         link.url.toUpperCase().includes(filter.toUpperCase())
+    //     ),
+    // }
     //{ enabled: !!userId }
   );
 }
+// export function useLinksByUser(filter = '') {
+//   return useQuery(
+//     ['links'],
+//     async () => {
+//       let data;
+//       try {
+//         const response = await axios.get(`/api/links`);
+//         console.log('RESPONSE', response);
+//         if (response.data && response.data.data.links) {
+//           data = response.data.data.links;
+//         }
+//         return data;
+//       } catch (err) {
+//         console.log('ERROR', err);
+//         throw err;
+//       }
+//     },
+//     {
+//       select: (links) =>
+//         links.filter(
+//           (link) =>
+//             link.title.toUpperCase().includes(filter.toUpperCase()) ||
+//             link.description.toUpperCase().includes(filter.toUpperCase()) ||
+//             link.url.toUpperCase().includes(filter.toUpperCase())
+//         ),
+//     }
+//     //{ enabled: !!userId }
+//   );
+// }
 
 export async function updateLink(id, data) {
   try {

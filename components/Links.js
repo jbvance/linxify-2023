@@ -7,6 +7,7 @@ import FormAlert from './FormAlert';
 const Links = ({ links, onEditLink }) => {
   const [deleteLinkId, setDeleteLinkId] = useState(null);
   const [error, setError] = useState(null);
+  const [showManageLinkId, setShowManageLinkId] = useState(-1);
 
   const onDeleteLink = async (id) => {
     try {
@@ -26,6 +27,8 @@ const Links = ({ links, onEditLink }) => {
         return (
           <div
             key={link.id}
+            onMouseEnter={() => setShowManageLinkId(index)}
+            onMouseLeave={() => setShowManageLinkId(-1)}
             className={`${styles.links_row} ${
               index % 2 === 0 ? styles.links_even : styles.links_odd
             }`}
@@ -36,34 +39,39 @@ const Links = ({ links, onEditLink }) => {
               </a>
             </div>
             <div>{link.description}</div>
-            <div>
-              <Button
-                variant="outline-success"
-                style={{ width: '100%' }}
-                onClick={() => onEditLink(link.id)}
-              >
-                Edit
-              </Button>
-            </div>
-            <div>
-              <Button
-                variant="outline-danger"
-                style={{ width: '100%' }}
-                onClick={() => onDeleteLink(link.id)}
-              >
-                {deleteLinkId === link.id && (
-                  <Spinner
-                    animation="border"
-                    size="sm"
-                    role="status"
-                    aria-hidden={true}
-                    style={{ marginRight: '10px' }}
-                  ></Spinner>
-                )}
-                <span>
-                  {deleteLinkId === link.id ? 'Deleting...' : 'Delete'}
-                </span>
-              </Button>
+            <div
+              className={styles.manage_link}
+              style={{
+                visibility: showManageLinkId === index ? '' : 'hidden',
+              }}
+            >
+              <div>
+                <Button
+                  variant="outline-success"
+                  style={{ width: '100%' }}
+                  onClick={() => onEditLink(link.id)}
+                >
+                  Edit
+                </Button>
+              </div>
+              <div>
+                <Button
+                  variant="outline-danger"
+                  style={{ width: '100%' }}
+                  onClick={() => onDeleteLink(link.id)}
+                >
+                  {deleteLinkId === link.id && (
+                    <Spinner
+                      animation="border"
+                      size="sm"
+                      role="status"
+                      aria-hidden={true}
+                      style={{ marginRight: '10px' }}
+                    ></Spinner>
+                  )}
+                  <span>Delete</span>
+                </Button>
+              </div>
             </div>
           </div>
         );

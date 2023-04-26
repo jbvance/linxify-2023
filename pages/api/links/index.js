@@ -4,20 +4,24 @@ import prisma from '@/lib/prisma';
 const handler = async (req, res) => {
   if (req.method === 'GET') {
     try {
-      // TEST GET USER WITH LINKS AND CATEGORIES
+      const orderByField = req.query.orderByField || 'title';
+      const orderByValue = req.query.orderByValue || 'asc';
+      // Get user and include links
       const user = await prisma.user.findUnique({
         where: {
           id: req.user.id,
         },
         include: {
           links: {
+            orderBy: {
+              [orderByField]: orderByValue,
+            },
             include: {
               category: true,
             },
           },
         },
       });
-      //console.log('USER', user);
       res.status(200).json({ status: 'success', data: user });
     } catch (err) {
       console.log('ERROR', err);
@@ -44,7 +48,6 @@ const handler = async (req, res) => {
           categoryId: categoryId ? categoryId : null,
         },
       });
-      console.log('LINK CREATED', link);
       res.status(201).json({ status: 'success', data: link });
     } catch (err) {
       console.log('ERROR', err);
