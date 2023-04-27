@@ -88,6 +88,12 @@
   .grid_container > div {
     display: grid;
     grid-template-columns: 1fr;
-    grid-gap: 10px;
+    grid-gap: 1 0px;
+  }
+
+  .manage_link {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
   }
 }
