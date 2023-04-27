@@ -1,3 +1,5 @@
+import { Orbitron } from 'next/font/google';
+
 // Make an API request to `/api/{path}`
 export async function apiRequest(path, method = 'GET', data) {
   //const accessToken = session ? session.access_token : undefined;
@@ -31,3 +33,9 @@ export function CustomError(code, message) {
   error.code = code;
   return error;
 }
+
+// Custom font
+export const orbitron = Orbitron({
+  weight: '400',
+  subsets: ['latin'],
+});

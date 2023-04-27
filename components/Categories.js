@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Button, Spinner } from 'react-bootstrap';
+import Link from 'next/link';
+import { Spinner } from 'react-bootstrap';
 import { FaRegTrashAlt, FaRegEdit } from 'react-icons/fa';
 import styles from '@/styles/Links.module.css';
 import { deleteCategory } from '@/util/db';
@@ -31,8 +32,14 @@ const Categories = ({ categories, onEditCategory }) => {
               index % 2 === 0 ? styles.links_even : styles.links_odd
             }`}
           >
-            <div>{category.title}</div>
-            <div>{category.description}</div>
+            <div>
+              <Link href={`categories/${category.id}`}>{category.title}</Link>
+            </div>
+            <div>
+              <Link href={`categories/${category.id}`}>
+                {category.description}
+              </Link>
+            </div>
             <div
               className={styles.manage_link}
               style={{

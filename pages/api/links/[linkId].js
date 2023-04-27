@@ -5,7 +5,12 @@ const handler = async (req, res) => {
   const { linkId } = req.query;
   const { url, title, description, categoryId } = req.body;
   if (!linkId) {
-    throw new Error('No Link Id was provided');
+    return res.status(400).json({
+      status: 'error',
+      message: 'No Link ID was provided',
+      data: undefined,
+      code: 'api-link-handle-error',
+    });
   }
   if (req.method === 'PATCH') {
     // If no url or title provided, return error response
@@ -58,7 +63,7 @@ const handler = async (req, res) => {
       });
     } catch (err) {
       console.log('ERROR', err);
-      res.status(400).json({
+      res.status(500).json({
         status: 'error',
         code: 'api-links-error',
         message: err.message,

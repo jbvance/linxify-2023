@@ -7,8 +7,6 @@ import Links from '@/components/Links';
 import { FaPlusCircle } from 'react-icons/fa';
 import FormAlert from '@/components/FormAlert';
 import EditLinkModal from '@/components/EditLinkModal';
-import { useLinksByUser } from '@/util/db';
-import ToastMessage from '@/components/ToastMessage';
 import PageLoader from '@/components/PageLoader';
 import useDebounce from '@/hooks/useDebounce';
 import { getLinksByUser } from '@/util/db';
@@ -57,10 +55,6 @@ const LinksPage = () => {
   const { isLoading, isError, data, error, refetch } =
     useLinks(debouncedSearch);
   const { setShowToast, setToastMessage, showToast, ToastCustom } = useToast();
-
-  useEffect(() => {
-    console.log('SHOW TOAST', showToast);
-  }, [showToast]);
 
   const handleSearch = (e) => setFilter(e.target.value);
   if (isError) {

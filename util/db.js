@@ -6,7 +6,13 @@ import {
 import axios from 'axios';
 
 // React Query client
-const client = new QueryClient();
+const client = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false, // default: true
+    },
+  },
+});
 
 /**********************************************
  * LINKS
@@ -33,7 +39,7 @@ export function useLink(id) {
 }
 
 // Export the function for getting links here so we
-// can use it in Links page to call with debouncing
+// can use it in Links page for searching
 export async function getLinksByUser(
   filter = '',
   orderByField = 'title',
@@ -73,6 +79,29 @@ export function useLinksByUser(
     //     ),
     // }
     //{ enabled: !!userId }
+  );
+}
+
+// Links by Category
+export function useLinksByCategory(
+  categoryId,
+  orderByField = 'title',
+  orderByValue = 'asc'
+) {
+  return useQuery(
+    ['links', { categoryId }],
+    async () => {
+      let data = {};
+
+      const response = await axios.get(`/api/categories/${categoryId}/links`);
+      console.log('RESPONSE', response);
+      if (response.data && response.data.data) {
+        data = response.data.data;
+      }
+      return data;
+    },
+
+    { enabled: !!categoryId }
   );
 }
 

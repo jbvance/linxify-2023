@@ -1,11 +1,16 @@
-import requireAuth from '../_requireAuth';
+import requireAuth from '../../_requireAuth';
 import prisma from '@/lib/prisma';
 
 const handler = async (req, res) => {
   const { categoryId } = req.query;
   const { title, description } = req.body;
   if (!categoryId) {
-    throw new Error('No Category Id was provided');
+    res.status(400).json({
+      status: 'error',
+      code: 'api-categories-no-id-error',
+      message: 'No Category Id was provided',
+      data: null,
+    });
   }
   if (req.method === 'PATCH') {
     // If no description or title provided, return error response
@@ -35,7 +40,7 @@ const handler = async (req, res) => {
       });
     } catch (err) {
       console.log('ERROR', err);
-      res.status(401).json({
+      res.status(500).json({
         status: 'error',
         code: 'api-categories-error',
         message: err.message,
@@ -57,7 +62,7 @@ const handler = async (req, res) => {
       });
     } catch (err) {
       console.log('ERROR', err);
-      res.status(400).json({
+      res.status(500).json({
         status: 'error',
         code: 'api-categories-delete-error',
         message: err.message,
@@ -84,7 +89,7 @@ const handler = async (req, res) => {
       res.status(200).json({ status: 'success', data: category });
     } catch (err) {
       console.log('ERROR', err);
-      res.status(401).json({
+      res.status(500).json({
         status: 'error',
         code: 'api-categories-fetch-error-server-error',
         message: err.message,
