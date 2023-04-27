@@ -14,7 +14,7 @@ const useToast = (variant = 'success', delay = 3000) => {
           show={showToast}
           bg={variant}
           bodyText={toastMessage}
-          bodyStyle={{ color: 'white', fontSize: '2rem' }}
+          bodyStyle={{ color: 'white', fontSize: '1.5rem' }}
           headerText=""
           delay={delay}
         />

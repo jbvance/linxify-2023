@@ -1,4 +1,5 @@
 import React, { useState, Fragment } from 'react';
+import { useRouter } from 'next/router';
 import { getSession } from 'next-auth/react';
 import {
   Button,
@@ -8,7 +9,6 @@ import {
   Row,
   Spinner,
 } from 'react-bootstrap';
-import { useRouter } from 'next/router';
 import { Formik, Form, useField } from 'formik';
 import * as Yup from 'yup';
 import FormAlert from '@/components/FormAlert';
@@ -16,6 +16,7 @@ import TextInput from '@/components/forms/TextInput';
 import SelectInput from '@/components/forms/Select';
 import { useCategoriesByUser, createLink } from '@/util/db';
 import PageLoader from '@/components/PageLoader';
+import useToast from '@/hooks/useToast';
 
 export async function getServerSideProps(context) {
   console.log(context.query);
@@ -37,22 +38,26 @@ export async function getServerSideProps(context) {
 
 const NewLinkPage = ({ link }) => {
   const [isSaving, setIsSaving] = useState(false);
+  const router = useRouter();
   const {
     data: categoriesData,
     status: categoriesStatus,
     isLoading: isCategoriesLoading,
   } = useCategoriesByUser();
 
-  console.log('STATUS', categoriesStatus, isCategoriesLoading);
-  if (categoriesData) {
-    console.log('DATA', categoriesData);
-  }
+  const {
+    setShowToast: setShowSuccessToast,
+    setToastMessage: setToastSuccessMessage,
+    ToastCustom: ToastCustomSuccess,
+  } = useToast('success', 3000);
+
   if (isCategoriesLoading) {
     return <PageLoader />;
   }
 
   return (
     <Fragment>
+      <ToastCustomSuccess />
       <h1 style={{ textAlign: 'center', color: 'var(--primary-green)' }}>
         Enter Link Information
       </h1>
@@ -79,6 +84,11 @@ const NewLinkPage = ({ link }) => {
               description,
               category,
             });
+            setToastSuccessMessage('Link successfully created!');
+            setShowSuccessToast(true);
+            setTimeout(() => {
+              router.push('/links');
+            }, 2000);
           } catch (err) {
             console.log('ERROR', err.message);
           } finally {
