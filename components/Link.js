@@ -32,7 +32,11 @@ const Link = ({ link, onEditLink, onDeleteLink, index }) => {
           {link.title}
         </a>
       </div>
-      <div>{link.description}</div>
+      <div>
+        <a href={link.url} target="_blank" rel="noopener noreferrer">
+          {link.description}
+        </a>
+      </div>
       <div
         className={styles.manage_link}
         style={{
