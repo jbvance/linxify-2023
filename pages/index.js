@@ -59,11 +59,11 @@ export default function Home() {
         <div className={styles['grid-instr']}>
           <h1>How it works</h1>
           <p>
-            Linxify is simple to use. You don't even have to leave the browser
-            window of the website address you want to save. When you find
-            yourself visting a page you would like to save, simply place your
-            cursor at the beginning of the website address in the address bar
-            and type{' '}
+            Linxify is simple to use. You don&apos;t even have to leave the
+            browser window of the website address you want to save. When you
+            find yourself visting a page you would like to save, simply place
+            your cursor at the beginning of the website address in the address
+            bar and type{' '}
             <code className={styles.code}>https://linxify.net/new?link=</code>{' '}
             and press enter on your keyboard. This will redirect you to Linxify,
             where you can save the link and add a description that will make it
