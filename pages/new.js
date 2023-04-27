@@ -38,6 +38,7 @@ export async function getServerSideProps(context) {
 
 const NewLinkPage = ({ link }) => {
   const [isSaving, setIsSaving] = useState(false);
+  const [error, setError] = useState(undefined);
   const router = useRouter();
   const {
     data: categoriesData,
@@ -75,6 +76,7 @@ const NewLinkPage = ({ link }) => {
           category: Yup.string(),
         })}
         onSubmit={async (values, { setSubmitting }) => {
+          setError('');
           setIsSaving(true);
           try {
             const { url, title, description, category } = values;
@@ -91,6 +93,9 @@ const NewLinkPage = ({ link }) => {
             }, 2000);
           } catch (err) {
             console.log('ERROR', err.message);
+            setError(
+              'Sorry, there was an error saving your link. Please try again.'
+            );
           } finally {
             setIsSaving(false);
           }
@@ -163,6 +168,11 @@ const NewLinkPage = ({ link }) => {
               </Button>
             </Row>
           </Form>
+          {error && (
+            <Row style={{ marginTop: '20px' }}>
+              <FormAlert type="error" message={error} />
+            </Row>
+          )}
         </Container>
       </Formik>
     </Fragment>
