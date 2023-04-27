@@ -64,7 +64,7 @@ export default function Home() {
             find yourself visting a page you would like to save, simply place
             your cursor at the beginning of the website address in the address
             bar and type{' '}
-            <code className={styles.code}>https://linxify.net/new?link=</code>{' '}
+            <code className={styles.code}>https://linxify.io/new?link=</code>{' '}
             and press enter on your keyboard. This will redirect you to Linxify,
             where you can save the link and add a description that will make it
             easy to find later. Simple!
