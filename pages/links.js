@@ -58,15 +58,6 @@ const LinksPage = () => {
     useLinks(debouncedSearch);
   const { setShowToast, setToastMessage, showToast, ToastCustom } = useToast();
 
-  // DeBounce Function
-  useDebounce(
-    () => {
-      refetch();
-    },
-    [filter],
-    800
-  );
-
   useEffect(() => {
     console.log('SHOW TOAST', showToast);
   }, [showToast]);
