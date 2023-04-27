@@ -1,12 +1,14 @@
 import Head from 'next/head';
+import { useRouter } from 'next/router';
+import { Button } from 'react-bootstrap';
 import Image from 'next/image';
 import { Inter } from 'next/font/google';
 import styles from '@/styles/Home.module.css';
-import Navigation from '@/components/Navigation';
-
+import { orbitron } from '@/util/util';
 const inter = Inter({ subsets: ['latin'] });
 
 export default function Home() {
+  const router = useRouter();
   return (
     <>
       <Head>
@@ -15,99 +17,67 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={`${styles.main} ${inter.className}`}>
-        <div className={styles.description}>
-          <p>
-            Get started by editing&nbsp;
-            <code className={styles.code}>pages/index.js</code>
-          </p>
-          <div>
-            <a
-              href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              By{' '}
-              <Image
-                src="/vercel.svg"
-                alt="Vercel Logo"
-                className={styles.vercelLogo}
-                width={100}
-                height={24}
-                priority
-              />
-            </a>
-          </div>
-        </div>
-
-        <div className={styles.center}>
-          <Image
-            className={styles.logo}
-            src="/next.svg"
-            alt="Next.js Logo"
-            width={180}
-            height={37}
-            priority
-          />
+      <main className={`${styles.main}`}>
+        <div>
+          <h1 className={`${orbitron.className} ${styles['logo-header']}`}>
+            LINXIFY
+          </h1>
         </div>
 
         <div className={styles.grid}>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2>
-              Docs <span>-&gt;</span>
-            </h2>
+          <div className={styles.card}>
+            <h4 className={styles.header}> Save your favorites!</h4>
             <p>
-              Find in-depth information about Next.js features and&nbsp;API.
+              Now you can save all your favorites sites on the web in one place!
             </p>
-          </a>
+          </div>
 
-          <a
-            href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2>
-              Learn <span>-&gt;</span>
-            </h2>
+          <div className={styles.card}>
+            <h4 className={styles.header}> Use Categories</h4>
             <p>
-              Learn about Next.js in an interactive course with&nbsp;quizzes!
+              You can save your favorites by category and easily access all your
+              links for each saved category.
             </p>
-          </a>
+          </div>
 
-          <a
-            href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2>
-              Templates <span>-&gt;</span>
-            </h2>
+          <div className={styles.card}>
+            <h4 className={styles.header}> Advanced Searching</h4>
             <p>
-              Discover and deploy boilerplate example Next.js&nbsp;projects.
+              Create meaningful descriptions for your links so you can easily
+              search your links by website name or descriptions.
             </p>
-          </a>
+          </div>
 
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2>
-              Deploy <span>-&gt;</span>
-            </h2>
+          <div className={styles.card}>
+            <h4 className={styles.header}> Free to use</h4>
             <p>
-              Instantly deploy your Next.js site to a shareable URL
-              with&nbsp;Vercel.
+              There is no upfront cost or subscription pricing, it&apos;s all
+              free!
             </p>
-          </a>
+          </div>
+        </div>
+        <div className={styles['grid-instr']}>
+          <h1>How it works</h1>
+          <p>
+            Linxify is simple to use. You don't even have to leave the browser
+            window of the website address you want to save. When you find
+            yourself visting a page you would like to save, simply place your
+            cursor at the beginning of the website address in the address bar
+            and type{' '}
+            <code className={styles.code}>https://linxify.net/new?link=</code>{' '}
+            and press enter on your keyboard. This will redirect you to Linxify,
+            where you can save the link and add a description that will make it
+            easy to find later. Simple!
+          </p>
+        </div>
+        <div style={{ marginTop: '20px' }}>
+          <Button
+            variant="success"
+            style={{ padding: '20px 50px' }}
+            onClick={() => router.push('/links')}
+          >
+            Get Started Now
+          </Button>
         </div>
       </main>
     </>

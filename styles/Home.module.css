@@ -1,7 +1,7 @@
 .main {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  //justify-content: space-between;
   align-items: center;
   padding: 6rem;
   min-height: 100vh;
@@ -46,12 +46,35 @@
   max-width: 100%;
 }
 
+.grid-instr {
+  display: grid;
+  background: rgba(var(--primary-green-rgb), 0.8);
+  width: 100%;
+  border-radius: var(--border-radius);
+  color: white;
+}
+
+.grid-instr h1 {
+  text-align: center;
+}
+
+.grid-instr p {
+  padding: 0 10px;
+}
+
+.code {
+  color: black;
+}
+
 .card {
   padding: 1rem 1.2rem;
+  margin: 1rem;
   border-radius: var(--border-radius);
   background: rgba(var(--card-rgb), 0);
   border: 1px solid rgba(var(--card-border-rgb), 0);
   transition: background 200ms, border 200ms;
+  background: rgba(var(--card-rgb), 0.1);
+  border: 1px solid rgba(var(--card-border-rgb), 0.15);
 }
 
 .card span {
@@ -64,12 +87,18 @@
   margin-bottom: 0.7rem;
 }
 
+.card .header {
+  text-align: center;
+  color: var(--primary-green);
+}
+
 .card p {
   margin: 0;
-  opacity: 0.6;
+  opacity: 0.8;
   font-size: 0.9rem;
   line-height: 1.5;
   max-width: 30ch;
+  text-align: center;
 }
 
 .center {
@@ -107,8 +136,14 @@
 .logo {
   position: relative;
 }
+
+.logo-header {
+  color: var(--primary-green);
+  font-size: 80px;
+}
+
 /* Enable hover only on non-touch devices */
-@media (hover: hover) and (pointer: fine) {
+/* @media (hover: hover) and (pointer: fine) {
   .card:hover {
     background: rgba(var(--card-rgb), 0.1);
     border: 1px solid rgba(var(--card-border-rgb), 0.15);
@@ -117,7 +152,7 @@
   .card:hover span {
     transform: translateX(4px);
   }
-}
+} */
 
 @media (prefers-reduced-motion) {
   .card:hover span {
