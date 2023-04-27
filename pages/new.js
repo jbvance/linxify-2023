@@ -10,6 +10,7 @@ import {
   Spinner,
 } from 'react-bootstrap';
 import { Formik, Form, useField } from 'formik';
+import { FaPlusCircle } from 'react-icons/fa';
 import * as Yup from 'yup';
 import FormAlert from '@/components/FormAlert';
 import TextInput from '@/components/forms/TextInput';
@@ -17,6 +18,7 @@ import SelectInput from '@/components/forms/Select';
 import { useCategoriesByUser, createLink } from '@/util/db';
 import PageLoader from '@/components/PageLoader';
 import useToast from '@/hooks/useToast';
+import EditCategoryModal from '@/components/EditCategoryModal';
 
 export async function getServerSideProps(context) {
   console.log(context.query);
@@ -38,6 +40,7 @@ export async function getServerSideProps(context) {
 
 const NewLinkPage = ({ link }) => {
   const [isSaving, setIsSaving] = useState(false);
+  const [creatingCategory, setCreatingCategory] = useState(null);
   const [error, setError] = useState(undefined);
   const router = useRouter();
   const {
@@ -135,7 +138,27 @@ const NewLinkPage = ({ link }) => {
             </Row>
 
             <Row className="mb-3">
-              <SelectInput label="Category" name="category">
+              <SelectInput
+                label={
+                  <>
+                    <span>Category </span>
+                    <span
+                      style={{ cursor: 'pointer', fontSize: '0.8rem' }}
+                      onClick={() => setCreatingCategory(true)}
+                    >
+                      <FaPlusCircle
+                        color="var(--primary-green)"
+                        style={{
+                          marginLeft: '10px',
+                          marginRight: '5px',
+                        }}
+                      />
+                      Create new Category
+                    </span>
+                  </>
+                }
+                name="category"
+              >
                 <option value="">None</option>
                 {categoriesData &&
                   categoriesData.map((category) => {
@@ -172,6 +195,16 @@ const NewLinkPage = ({ link }) => {
             <Row style={{ marginTop: '20px' }}>
               <FormAlert type="error" message={error} />
             </Row>
+          )}
+          {creatingCategory && (
+            <EditCategoryModal
+              onDone={() => {
+                setCreatingCategory(false);
+                setToastSuccessMessage('Category Created!');
+                setShowSuccessToast(true);
+              }}
+              onHide={() => setCreatingCategory(false)}
+            />
           )}
         </Container>
       </Formik>
