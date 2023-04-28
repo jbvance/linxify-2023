@@ -23,7 +23,7 @@ const Navigation = () => {
         <Navbar.Brand
           href="/"
           className={`${orbitron.className}`}
-          style={{ color: 'var(--primary-green' }}
+          style={{ color: 'var(--primary-green', fontSize: '1.5rem' }}
         >
           Linxify
         </Navbar.Brand>
@@ -36,15 +36,17 @@ const Navigation = () => {
               navbarScroll
             >
               <Link
-                className={`${styles.link} ${
-                  router.pathname == '/links' ? styles.active_link : ''
-                }`}
+                className={`${styles.link} ${orbitron.className} ${
+                  styles['hover-underline-animation']
+                } ${router.pathname == '/links' ? styles.active_link : ''}`}
                 href="/links"
               >
                 Links
               </Link>
               <Link
-                className={`${styles.link} ${
+                className={`${styles.link} ${orbitron.className} ${
+                  styles['hover-underline-animation']
+                } ${
                   router.pathname == '/categories' ? styles.active_link : ''
                 }`}
                 href="/categories"
