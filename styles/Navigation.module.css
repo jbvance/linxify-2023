@@ -1,6 +1,6 @@
 .link {
   text-decoration: none;
-  padding: 0 10px;
+  padding: 0;
   color: gray;
 }
 
@@ -30,6 +30,8 @@
   display: inline-block;
   position: relative;
   color: var(--primary-green;);
+  margin-right: 10px;
+  margin-left: 10px;
 }
 
 .hover-underline-animation::after {

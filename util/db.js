@@ -177,7 +177,7 @@ export function useCategory(id) {
 }
 
 // Fetch all items by owner
-export function useCategoriesByUser(filter = '') {
+export function useCategoriesByUser(userId, filter = '') {
   return useQuery(
     ['categories'],
     async () => {
@@ -201,8 +201,8 @@ export function useCategoriesByUser(filter = '') {
             category.title.toUpperCase().includes(filter.toUpperCase()) ||
             category.description.toUpperCase().includes(filter.toUpperCase())
         ),
-    }
-    //{ enabled: !!userId }
+    },
+    { enabled: !!userId }
   );
 }
 

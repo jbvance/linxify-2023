@@ -23,7 +23,7 @@ const Navigation = () => {
         <Navbar.Brand
           href="/"
           className={`${orbitron.className}`}
-          style={{ color: 'var(--primary-green', fontSize: '1.5rem' }}
+          style={{ color: 'var(--primary-green)', fontSize: '1.5rem' }}
         >
           Linxify
         </Navbar.Brand>

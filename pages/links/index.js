@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useMemo } from 'react';
+import { useSession } from 'next-auth/react';
 import { Container, Row, Col, Button, Spinner, Toast } from 'react-bootstrap';
 import { useQuery } from '@tanstack/react-query';
 import styles from '@/styles/Links.module.css';
@@ -47,6 +48,7 @@ function useLinks(filter) {
 
 const LinksPage = () => {
   const [updatingLinkId, setUpdatingLinkId] = useState(null);
+  const { data: session, status } = useSession();
   const [filter, setFilter] = useState('');
   const [creatingLink, setCreatingLink] = useState(null);
   //const [showToast, setShowToast] = useState(false);
@@ -91,6 +93,7 @@ const LinksPage = () => {
       {updatingLinkId && (
         <EditLinkModal
           id={updatingLinkId}
+          userId={session.user.id}
           onDone={() => {
             setUpdatingLinkId(null);
             setToastMessage('Link Updated!');

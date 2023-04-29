@@ -33,11 +33,15 @@ export async function getServerSideProps(context) {
   }
 }
 
-const CategoriesPage = () => {
+const CategoriesPage = ({ session }) => {
+  const userId = session.user.id;
   const [updatingCategoryId, setUpdatingCategoryId] = useState(null);
   const [filter, setFilter] = useState('');
   const [creatingCategory, setCreatingCategory] = useState(null);
-  const { isLoading, isError, data, error } = useCategoriesByUser(filter);
+  const { isLoading, isError, data, error } = useCategoriesByUser(
+    userId,
+    filter
+  );
   const {
     setShowToast: setShowSuccessToast,
     setToastMessage: setToastSuccessMessage,

@@ -29,7 +29,7 @@ const EditLinkModal = (props) => {
     data: categoriesData,
     status: categoriesStatus,
     isLoading: isCategoriesLoading,
-  } = useCategoriesByUser();
+  } = useCategoriesByUser(props.userId);
   const [pending, setPending] = useState(false);
   const [formAlert, setFormAlert] = useState(null);
   const {
