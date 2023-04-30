@@ -20,10 +20,10 @@ export const authOptions = {
   // Configure one or more authentication providers
   adapter: PrismaAdapter(prisma),
   providers: [
-    GithubProvider({
-      clientId: process.env.GITHUB_ID,
-      clientSecret: process.env.GITHUB_SECRET,
-    }),
+    // GithubProvider({
+    //   clientId: process.env.GITHUB_ID,
+    //   clientSecret: process.env.GITHUB_SECRET,
+    // }),
     EmailProvider({
       server: {
         host: process.env.EMAIL_SERVER_HOST,
@@ -36,6 +36,9 @@ export const authOptions = {
       from: process.env.EMAIL_FROM,
     }),
   ],
+  pages: {
+    signIn: '/auth/signin',
+  },
   callbacks: {
     async jwt({ token, account }) {
       // Persist the OAuth access_token to the token right after signin
@@ -50,6 +53,12 @@ export const authOptions = {
       }
       return session;
     },
+  },
+  theme: {
+    colorScheme: 'light', // "auto" | "dark" | "light"
+    brandColor: '#04b840', // Hex color code
+    logo: '', // Absolute URL to image
+    buttonText: '', // Hex color code
   },
 };
 export default NextAuth(authOptions);

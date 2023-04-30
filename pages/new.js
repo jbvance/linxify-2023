@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 
-import { getSession, signIn } from 'next-auth/react';
+import { getSession } from 'next-auth/react';
 import {
   Button,
   Col,
@@ -10,23 +10,27 @@ import {
   Row,
   Spinner,
 } from 'react-bootstrap';
-import { Formik, Form, useField } from 'formik';
+import { Formik, Form } from 'formik';
 import { FaPlusCircle } from 'react-icons/fa';
 import * as Yup from 'yup';
 import FormAlert from '@/components/FormAlert';
 import TextInput from '@/components/forms/TextInput';
 import SelectInput from '@/components/forms/Select';
 import { useCategoriesByUser, createLink } from '@/util/db';
-import PageLoader from '@/components/PageLoader';
 import useToast from '@/hooks/useToast';
 import EditCategoryModal from '@/components/EditCategoryModal';
 
 export async function getServerSideProps(context) {
   const session = await getSession({ req: context.req });
+  const signinRoute = `/api/auth/signin${
+    context.req.query ? `/?callbackUrl=${context.req.query}` : ''
+  }`;
   if (!session) {
-    console.log('NO SESSION');
     return {
-      props: { session: {} },
+      redirect: {
+        destination: signinRoute,
+        permanent: false,
+      },
     };
   } else {
     return {
@@ -54,13 +58,6 @@ const NewLinkPage = ({ session }) => {
     setToastMessage: setToastSuccessMessage,
     ToastCustom: ToastCustomSuccess,
   } = useToast('success', 3000);
-
-  console.log('SESSION', session);
-
-  if (!session || !session.user || !session.user.id) {
-    console.log('NOT LOGGED IN);');
-    signIn(undefined, { callbackUrl: `/new?link=${link}` });
-  }
 
   return (
     <>
