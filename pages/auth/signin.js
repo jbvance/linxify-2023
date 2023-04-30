@@ -12,8 +12,8 @@ export default function SignIn({ csrfToken }) {
       </Row>
       <Row>
         <Col>
-          Enter your email address and we'll send you a link to login without
-          having to use a password.
+          Enter your email address and we&apos;ll send you a link to login
+          without having to use a password.
         </Col>
       </Row>
       <Row className={styles.signinForm}>
@@ -29,7 +29,7 @@ export default function SignIn({ csrfToken }) {
               required
             />
             <Form.Text className="text-muted">
-              We'll never share your email with anyone else.
+              We&apos;ll never share your email with anyone else.
             </Form.Text>
           </Form.Group>
 
