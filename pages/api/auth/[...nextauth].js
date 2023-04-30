@@ -36,9 +36,9 @@ export const authOptions = {
       from: process.env.EMAIL_FROM,
     }),
   ],
-  pages: {
-    signIn: '/auth/signin',
-  },
+  // pages: {
+  //   signIn: '/auth/signin',
+  // },
   callbacks: {
     async jwt({ token, account }) {
       // Persist the OAuth access_token to the token right after signin

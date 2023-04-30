@@ -1,8 +1,11 @@
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
-import { getCsrfToken } from 'next-auth/react';
+import { useRouter } from 'next/router';
+import { getCsrfToken, signIn } from 'next-auth/react';
 import styles from '@/styles/Signin.module.css';
 
 export default function SignIn({ csrfToken }) {
+  const router = useRouter();
+  console.log('QRY', router.query);
   return (
     <Container>
       <Row>

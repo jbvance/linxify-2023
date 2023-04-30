@@ -8,7 +8,6 @@ import { useRouter } from 'next/router';
 
 export default function App({ Component, pageProps }) {
   const router = useRouter();
-  console.log('QUERY', router.query);
   return (
     <QueryClientProvider>
       <SessionProvider session={pageProps.session}>

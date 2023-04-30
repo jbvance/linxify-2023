@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-
-import { getSession } from 'next-auth/react';
+import { getSession, useSession, signIn } from 'next-auth/react';
 import {
   Button,
   Col,
@@ -19,32 +18,41 @@ import SelectInput from '@/components/forms/Select';
 import { useCategoriesByUser, createLink } from '@/util/db';
 import useToast from '@/hooks/useToast';
 import EditCategoryModal from '@/components/EditCategoryModal';
+import PageLoader from '@/components/PageLoader';
 
-export async function getServerSideProps(context) {
-  const session = await getSession({ req: context.req });
-  const signinRoute = `/api/auth/signin${
-    context.req.query ? `/?callbackUrl=${context.req.query}` : ''
-  }`;
-  if (!session) {
-    return {
-      redirect: {
-        destination: signinRoute,
-        permanent: false,
-      },
-    };
-  } else {
-    return {
-      props: { session },
-    };
-  }
-}
+// export async function getServerSideProps(context) {
+//   const session = await getSession({ req: context.req });
+//   console.log('QUERY', context.query);
+//   const signinRoute = `/auth/signin${
+//     context.query && context.query.link
+//       ? `?callbackUrl=${context.query.link}`
+//       : ''
+//   }`;
+//   console.log('SIGNIN ROUTE123', signinRoute);
+//   if (!session) {
+//     return {
+//       redirect: {
+//         destination: signinRoute,
+//         permanent: false,
+//       },
+//     };
+//   } else {
+//     return {
+//       props: { session },
+//     };
+//   }
+// }
 
-const NewLinkPage = ({ session }) => {
+const NewLinkPage = () => {
   const [isSaving, setIsSaving] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const { data: session, status: sessionStatus } = useSession();
+  console.log('STATUS', sessionStatus);
   const [creatingCategory, setCreatingCategory] = useState(null);
   const [error, setError] = useState(undefined);
   const router = useRouter();
   const link = router.query.link;
+  console.log('LINK', link);
   const {
     data: categoriesData,
     status: categoriesStatus,
@@ -59,6 +67,19 @@ const NewLinkPage = ({ session }) => {
     ToastCustom: ToastCustomSuccess,
   } = useToast('success', 3000);
 
+  useEffect(() => {
+    console.log('LINK', router.query.link);
+    if (sessionStatus === 'unauthenticated') {
+      signIn();
+    } else {
+      setIsLoading(false);
+    }
+  }, [router.query.link, sessionStatus]);
+
+  if (isLoading) {
+    return <PageLoader />;
+  }
+
   return (
     <>
       <ToastCustomSuccess />
@@ -66,8 +87,9 @@ const NewLinkPage = ({ session }) => {
         Enter Link Information
       </h1>
       <Formik
+        enableReinitialize
         initialValues={{
-          url: link,
+          url: link || '',
           title: '',
           description: '',
           category: '',
@@ -124,7 +146,7 @@ const NewLinkPage = ({ session }) => {
                 label="URL (Website Address)"
                 name="url"
                 type="text"
-                placeholder="Enter a title"
+                placeholder="Enter a URL"
               />
             </Row>
 
