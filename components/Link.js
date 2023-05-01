@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Spinner } from 'react-bootstrap';
 import styles from '@/styles/Links.module.css';
-import { FaRegTrashAlt, FaRegEdit, FaRegHeart, FaHeart } from 'react-icons/fa';
+import { FaRegTrashAlt, FaRegEdit, FaStar, FaRegStar } from 'react-icons/fa';
 
 const Link = ({
   link,
@@ -37,13 +37,13 @@ const Link = ({
       <div>
         <span className={styles.favorite}>
           {isFavorite ? (
-            <FaHeart
+            <FaStar
               title="Click to remove from favorites"
               onClick={() => onToggleFavorite(link.id)}
               className={styles['is-favorite']}
             />
           ) : (
-            <FaRegHeart
+            <FaRegStar
               title="Click to add to favorites"
               onClick={() => onToggleFavorite(link.id)}
             />
