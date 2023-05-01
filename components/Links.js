@@ -16,7 +16,6 @@ const Links = ({ links, favorites, onEditLink, showEditLink = true }) => {
   } = useToast('success', 3000);
 
   const isFavorite = (linkId) => {
-    console.log('FAVS', favorites, linkId);
     return (
       favorites &&
       favorites.findIndex((fav) => fav.linkId === linkId || fav.id === linkId) >

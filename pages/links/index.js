@@ -64,7 +64,6 @@ const LinksPage = () => {
     error: favoritesError,
   } = useFavorites();
   const { setShowToast, setToastMessage, showToast, ToastCustom } = useToast();
-  console.log('FAV DATA', favoritesData);
 
   const handleSearch = (e) => setFilter(e.target.value);
   if (isError) {
