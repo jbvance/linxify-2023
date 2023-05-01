@@ -1,11 +1,29 @@
+import { useRef } from 'react';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import { useRouter } from 'next/router';
 import { getCsrfToken, signIn } from 'next-auth/react';
 import styles from '@/styles/Signin.module.css';
 
-export default function SignIn({ csrfToken }) {
+export async function getServerSideProps(context) {
+  return {
+    props: {
+      csrfToken: await getCsrfToken(context),
+    },
+  };
+}
+
+export default function SignIn() {
   const router = useRouter();
-  console.log('QRY', router.query);
+  const callbackUrl = router.query.callbackUrl || '';
+  const emailRef = useRef();
+  const submitForm = (e) => {
+    let options = { email: emailRef.current.value };
+    if (callbackUrl) {
+      options = { ...options, callbackUrl };
+    }
+    e.preventDefault();
+    signIn('email', options);
+  };
   return (
     <Container>
       <Row>
@@ -20,11 +38,11 @@ export default function SignIn({ csrfToken }) {
         </Col>
       </Row>
       <Row className={styles.signinForm}>
-        <Form method="post" action="/api/auth/signin/email">
-          <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
+        <Form onSubmit={submitForm}>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Email address</Form.Label>
             <Form.Control
+              ref={emailRef}
               id="email"
               name="email"
               type="email"
@@ -43,11 +61,4 @@ export default function SignIn({ csrfToken }) {
       </Row>
     </Container>
   );
-}
-
-export async function getServerSideProps(context) {
-  const csrfToken = await getCsrfToken(context);
-  return {
-    props: { csrfToken },
-  };
 }

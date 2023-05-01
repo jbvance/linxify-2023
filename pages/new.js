@@ -20,32 +20,31 @@ import useToast from '@/hooks/useToast';
 import EditCategoryModal from '@/components/EditCategoryModal';
 import PageLoader from '@/components/PageLoader';
 
-// export async function getServerSideProps(context) {
-//   const session = await getSession({ req: context.req });
-//   console.log('QUERY', context.query);
-//   const signinRoute = `/auth/signin${
-//     context.query && context.query.link
-//       ? `?callbackUrl=${context.query.link}`
-//       : ''
-//   }`;
-//   console.log('SIGNIN ROUTE123', signinRoute);
-//   if (!session) {
-//     return {
-//       redirect: {
-//         destination: signinRoute,
-//         permanent: false,
-//       },
-//     };
-//   } else {
-//     return {
-//       props: { session },
-//     };
-//   }
-// }
+export async function getServerSideProps(context) {
+  const session = await getSession({ req: context.req });
+  console.log('QUERY', context.query);
+  const signinRoute = `/auth/signin${
+    context.query && context.query.link
+      ? `?callbackUrl=/new?link=${context.query.link}`
+      : ''
+  }`;
+  console.log('SIGNIN ROUTE123', signinRoute);
+  if (!session) {
+    return {
+      redirect: {
+        destination: signinRoute,
+        permanent: false,
+      },
+    };
+  } else {
+    return {
+      props: { session },
+    };
+  }
+}
 
 const NewLinkPage = () => {
   const [isSaving, setIsSaving] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
   const { data: session, status: sessionStatus } = useSession();
   console.log('STATUS', sessionStatus);
   const [creatingCategory, setCreatingCategory] = useState(null);
@@ -66,19 +65,6 @@ const NewLinkPage = () => {
     setToastMessage: setToastSuccessMessage,
     ToastCustom: ToastCustomSuccess,
   } = useToast('success', 3000);
-
-  useEffect(() => {
-    console.log('LINK', router.query.link);
-    if (sessionStatus === 'unauthenticated') {
-      signIn();
-    } else {
-      setIsLoading(false);
-    }
-  }, [router.query.link, sessionStatus]);
-
-  if (isLoading) {
-    return <PageLoader />;
-  }
 
   return (
     <>
