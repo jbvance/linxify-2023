@@ -10,12 +10,18 @@ Linxify is simple to use. You don't even have to leave the browser window of the
 
 # Search for links and add to favorites
 
-Use the search bar to filter your list of links. If the search entered is found in then URL or the title of a link, that will be displayed, while all others are filtered out. You can also add and remove favorites while viewing your links.
+Use the search bar to filter your list of links. If the search entered is found in then URL, title, or description of a link, that will be displayed, while all others are filtered out. You can also add and remove favorites while viewing your links.
+
+![Search links and add favorites](public/images/tutorial/search-and-favorite.gif)
 
 # Edit or add a link manually
 
 You can also edit or add a link directly within the website, with the option to add a description about the link you are entering.
 
+![Add links manually](public/images/tutorial/add-link-manually.gif)
+
 # View, edit and add categories
 
-You can view and edit categories from your links, as well as add new categories.
+You can view, edit search, create new categories.
+
+![Search, add, and edit categories](public/images/tutorial/categories.gif)
