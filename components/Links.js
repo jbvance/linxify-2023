@@ -7,7 +7,7 @@ import Link from './Link';
 import useToast from '@/hooks/useToast';
 import { createFavorite, deleteFavorite } from '@/util/db';
 
-const Links = ({ links, favorites, onEditLink }) => {
+const Links = ({ links, favorites, onEditLink, showEditLink = true }) => {
   const [error, setError] = useState(null);
   const {
     setShowToast: setShowSuccessToast,
@@ -16,8 +16,11 @@ const Links = ({ links, favorites, onEditLink }) => {
   } = useToast('success', 3000);
 
   const isFavorite = (linkId) => {
+    console.log('FAVS', favorites, linkId);
     return (
-      favorites && favorites.findIndex((fav) => fav.linkId === linkId) > -1
+      favorites &&
+      favorites.findIndex((fav) => fav.linkId === linkId || fav.id === linkId) >
+        -1
     );
   };
 
@@ -56,6 +59,7 @@ const Links = ({ links, favorites, onEditLink }) => {
               key={index}
               index={index}
               link={link}
+              showEditLink={showEditLink}
               onEditLink={onEditLink}
               onDeleteLink={onDeleteLink}
               isFavorite={isFavorite(link.id)}

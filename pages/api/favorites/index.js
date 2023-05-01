@@ -25,7 +25,6 @@ const handler = async (req, res) => {
   } else if (req.method === 'POST') {
     try {
       // verify linkId is present
-      console.log('BODY', req.body);
       const { linkId } = req.body;
       if (!linkId) {
         return res.status(400).json({

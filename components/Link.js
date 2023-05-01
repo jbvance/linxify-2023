@@ -5,6 +5,7 @@ import { FaRegTrashAlt, FaRegEdit, FaRegHeart, FaHeart } from 'react-icons/fa';
 
 const Link = ({
   link,
+  showEditLink = false,
   onEditLink,
   onDeleteLink,
   index,
@@ -63,24 +64,28 @@ const Link = ({
           visibility: showManageLinkId === index ? '' : 'hidden',
         }}
       >
-        <div className={styles.manage_link_item}>
-          <FaRegEdit
-            title="Edit"
-            className={styles.edit_item}
-            onClick={() => onEditLink(link.id)}
-          />
-        </div>
-        <div className={styles.manage_link_item}>
-          {isDeleting ? (
-            <Spinner size="sm" className={styles.delete_item} />
-          ) : (
-            <FaRegTrashAlt
-              title="Delete"
-              className={styles.delete_item}
-              onClick={handleDelete}
-            />
-          )}
-        </div>
+        {showEditLink && (
+          <>
+            <div className={styles.manage_link_item}>
+              <FaRegEdit
+                title="Edit"
+                className={styles.edit_item}
+                onClick={() => onEditLink(link.id)}
+              />
+            </div>
+            <div className={styles.manage_link_item}>
+              {isDeleting ? (
+                <Spinner size="sm" className={styles.delete_item} />
+              ) : (
+                <FaRegTrashAlt
+                  title="Delete"
+                  className={styles.delete_item}
+                  onClick={handleDelete}
+                />
+              )}
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

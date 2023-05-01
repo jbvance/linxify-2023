@@ -53,6 +53,14 @@ const Navigation = () => {
               >
                 Categories
               </Link>
+              <Link
+                className={`${styles.link} ${orbitron.className} ${
+                  styles['hover-underline-animation']
+                } ${router.pathname == '/favorites' ? styles.active_link : ''}`}
+                href="/favorites"
+              >
+                Favorites
+              </Link>
             </Nav>
           )}
           <Nav>
