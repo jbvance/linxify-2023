@@ -84,6 +84,18 @@
   cursor: pointer;
 }
 
+.favorite {
+  margin-right: 10px;
+}
+
+.favorite:hover {
+  cursor: pointer;
+}
+
+.is-favorite {
+  color: #f54e5b;
+}
+
 @media only screen and (max-width: 768px) {
   .grid_container > div {
     display: grid;

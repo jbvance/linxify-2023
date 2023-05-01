@@ -5,14 +5,35 @@ import { deleteLink } from '@/util/db';
 import FormAlert from './FormAlert';
 import Link from './Link';
 import useToast from '@/hooks/useToast';
+import { createFavorite, deleteFavorite } from '@/util/db';
 
-const Links = ({ links, onEditLink }) => {
+const Links = ({ links, favorites, onEditLink }) => {
   const [error, setError] = useState(null);
   const {
     setShowToast: setShowSuccessToast,
     setToastMessage: setToastSuccessMessage,
     ToastCustom: ToastCustomSuccess,
   } = useToast('success', 3000);
+
+  const isFavorite = (linkId) => {
+    return (
+      favorites && favorites.findIndex((fav) => fav.linkId === linkId) > -1
+    );
+  };
+
+  const toggleFavorite = (linkId) => {
+    console.log('LINK ID', linkId);
+    setError(null);
+    if (isFavorite(linkId)) {
+      deleteFavorite(linkId);
+    } else {
+      try {
+        createFavorite(linkId);
+      } catch (err) {
+        setError('Unable to create favorite');
+      }
+    }
+  };
 
   const onDeleteLink = async (id) => {
     try {
@@ -37,6 +58,8 @@ const Links = ({ links, onEditLink }) => {
               link={link}
               onEditLink={onEditLink}
               onDeleteLink={onDeleteLink}
+              isFavorite={isFavorite(link.id)}
+              onToggleFavorite={toggleFavorite}
             />
           );
         })}

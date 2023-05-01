@@ -248,6 +248,48 @@ export async function deleteCategory(id) {
   }
 }
 
+/***************
+ * FAVORITES
+ *****************/
+// Fetch all items by owner
+export function useFavorites() {
+  return useQuery(['favorites'], async () => {
+    let data;
+    try {
+      const response = await axios.get(`/api/favorites`);
+      if (response.data && response.data.data) {
+        data = response.data.data;
+      }
+      return data;
+    } catch (err) {
+      console.log('ERROR GETTING FAVORITES', err);
+      throw err;
+    }
+  });
+}
+
+export async function createFavorite(linkId) {
+  try {
+    const response = await axios.post(`/api/favorites`, {
+      linkId,
+    });
+    await Promise.all([client.invalidateQueries(['favorites'])]);
+  } catch (err) {
+    console.log('ERROR', err);
+    throw err;
+  }
+}
+
+export async function deleteFavorite(linkId) {
+  try {
+    const response = await axios.delete(`/api/favorites/${linkId}`);
+    await Promise.all([client.invalidateQueries(['favorites'])]);
+  } catch (err) {
+    console.log('ERROR', err);
+    throw err;
+  }
+}
+
 // React Query context provider that wraps our app
 export function QueryClientProvider(props) {
   return (

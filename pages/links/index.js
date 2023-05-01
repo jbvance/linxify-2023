@@ -12,6 +12,7 @@ import PageLoader from '@/components/PageLoader';
 import useDebounce from '@/hooks/useDebounce';
 import { getLinksByUser } from '@/util/db';
 import useToast from '@/hooks/useToast';
+import { useFavorites } from '@/util/db';
 
 import { Orbitron } from 'next/font/google';
 
@@ -56,7 +57,14 @@ const LinksPage = () => {
   const debouncedSearch = useDebounce(filter, 800);
   const { isLoading, isError, data, error, refetch } =
     useLinks(debouncedSearch);
+  const {
+    isLoading: isFavoritesLoding,
+    isError: isFavoritesLoading,
+    data: favoritesData,
+    error: favoritesError,
+  } = useFavorites();
   const { setShowToast, setToastMessage, showToast, ToastCustom } = useToast();
+  console.log('FAV DATA', favoritesData);
 
   const handleSearch = (e) => setFilter(e.target.value);
   if (isError) {
@@ -82,10 +90,14 @@ const LinksPage = () => {
             Add Link
           </Button>
         </div>
-        {isLoading ? (
+        {isLoading || isFavoritesLoading ? (
           <PageLoader />
         ) : data && data.length > 0 ? (
-          <Links links={data} onEditLink={(id) => setUpdatingLinkId(id)} />
+          <Links
+            links={data}
+            onEditLink={(id) => setUpdatingLinkId(id)}
+            favorites={favoritesData}
+          />
         ) : (
           <FormAlert type="error" message="No links found" />
         )}

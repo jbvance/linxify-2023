@@ -1,14 +1,20 @@
 import React, { useState } from 'react';
 import { Button, Spinner } from 'react-bootstrap';
 import styles from '@/styles/Links.module.css';
-import { FaRegTrashAlt, FaRegEdit } from 'react-icons/fa';
+import { FaRegTrashAlt, FaRegEdit, FaRegHeart, FaHeart } from 'react-icons/fa';
 
-const Link = ({ link, onEditLink, onDeleteLink, index }) => {
+const Link = ({
+  link,
+  onEditLink,
+  onDeleteLink,
+  index,
+  isFavorite,
+  onToggleFavorite,
+}) => {
   const [showManageLinkId, setShowManageLinkId] = useState(-1);
   const [isDeleting, setIsDeleting] = useState(false);
 
   const handleDelete = async () => {
-    console.log('DELETING');
     try {
       setIsDeleting(true);
       await onDeleteLink(link.id);
@@ -28,6 +34,20 @@ const Link = ({ link, onEditLink, onDeleteLink, index }) => {
       }`}
     >
       <div>
+        <span className={styles.favorite}>
+          {isFavorite ? (
+            <FaHeart
+              title="Click to remove from favorites"
+              onClick={() => onToggleFavorite(link.id)}
+              className={styles['is-favorite']}
+            />
+          ) : (
+            <FaRegHeart
+              title="Click to add to favorites"
+              onClick={() => onToggleFavorite(link.id)}
+            />
+          )}
+        </span>
         <a href={link.url} target="_blank" rel="noopener noreferrer">
           {link.title}
         </a>
