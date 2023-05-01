@@ -1,38 +1,19 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Linxify - [https://www.linxify.io](https://www.linxify.io)
 
-## Getting Started
+A simple, web-based app that allows you to save all of your bookmarks in the cloud. Just enter linxify.net/ before any url, and instantly save your bookmark.
 
-First, run the development server:
+# Save a link while browsing the web
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+Linxify is simple to use. You don't even have to leave the browser window of the website address you want to save. When you find yourself visting a page you would like to save, simply place your cursor at the beginning of the website address in the address bar and type `https://linxify.io/new?link=` and press enter on your keyboard. This will redirect you to Linxify, where you can save the link and add a description that will make it easy to find later. If you are not logged in, you will first be sent to the login screen where you can enter your email address and receive a "magic" link via your email inbox which will sign you in and continue withe the saving process.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+# Search for links and add to favorites
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+Use the search bar to filter your list of links. If the search entered is found in then URL or the title of a link, that will be displayed, while all others are filtered out. You can also add and remove favorites while viewing your links.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+# Edit or add a link manually
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+You can also edit or add a link directly within the website, with the option to add a description about the link you are entering.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+# View, edit and add categories
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+You can view and edit categories from your links, as well as add new categories.
